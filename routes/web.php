@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LaporanController;
@@ -52,4 +53,8 @@ Route::middleware([CekLevel::class . ':1'])->group(function () {
 
 Route::middleware([CekLevel::class . ':2'])->group(function () {});
 
-Route::middleware([CekLevel::class . ':3'])->group(function () {});
+Route::middleware([CekLevel::class . ':3'])->group(function () {
+    Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
+    Route::get('/customer/produk', [CustomerController::class, 'produk'])->name('customer.produk');
+    Route::get('/customer/produk/{id_produk}', [CustomerController::class, 'show'])->name('customer.show');
+});

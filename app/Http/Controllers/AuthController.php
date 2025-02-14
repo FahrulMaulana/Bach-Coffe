@@ -27,6 +27,9 @@ class AuthController extends Controller
         }
 
         if (FacadesAuth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            if (FacadesAuth::user()->id_level == 3) {
+               return redirect()->intended('/customer/dashboard');
+            }
             return redirect()->intended('/admin/layout');
         } else {
             return back()->withErrors(['username' => 'Username atau password salah']);
