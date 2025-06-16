@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,13 +12,15 @@
         :root {
             --primary-color: #3c2415;
             --secondary-color: #8b4513;
-            --accent-color:rgb(17, 16, 15);
+            --accent-color: rgb(17, 16, 15);
         }
+
         .hero {
             position: relative;
             height: 100vh;
-            background: url('{{ asset("/build/assets/anime.gif") }}') center/cover no-repeat;
-            background-color: #000; /* Fallback */
+            background: url('{{ asset("/uploads/neK.gif") }}') center/cover no-repeat;
+            background-color: #000;
+            /* Fallback */
         }
 
         .hero-overlay {
@@ -66,7 +69,7 @@
         }
 
         .contact-form {
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 30px;
         }
@@ -76,7 +79,7 @@
         }
 
         .navbar.scrolled {
-            background: rgba(0,0,0,0.9) !important;
+            background: rgba(0, 0, 0, 0.9) !important;
         }
 
         /* Custom scrollbar */
@@ -91,31 +94,89 @@
         ::-webkit-scrollbar-thumb {
             background: var(--accent-color);
         }
+
+        .history {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .history .table tr {
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+            animation-delay: calc(var(--row-index) * 0.1s);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
+
+<!-- Alert Section -->
+<div class="alerts">
+    @if ($errors->any())
+        <div class="alert alert-danger d-flex align-items-center mt-3" id="error-alert" role="alert">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                style="display: none;"></button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger mt-3" id="error-alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                style="display: none;"></button>
+        </div>
+    @endif
+
+    <!-- Success alert -->
+    @if (session('success'))
+        <div class="alert alert-success mt-3" id="success-alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                style="display: none;"></button>
+        </div>
+    @endif
+</div>
+
 <body>
     <!-- Navbar -->
-        <nav class="navbar navbar-dark fixed-top">
+    <nav class="navbar navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img
-                    src="/AdminLTE-4.0.0-beta3/dist/assets/img/AdminLTELogo.png"
-                    alt="Bach Coffee"
-                    class="brand-image opacity-75 shadow"
-                    style="width: 50px; height: auto;"
-                />
+                <img src="/uploads/logobach.png" alt="Bach Coffee"
+                    class="brand-image opacity-75 shadow" style="width: 50px; height: auto;" />
             </a>
             <!-- Remove navbar-toggler button and collapse div -->
             <div class="navbar-nav ms-auto">
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img
-                            src="/AdminLTE-4.0.0-beta3/dist/assets/img/user2-160x160.jpg"
-                            class="user-image rounded-circle shadow"
-                            alt="User Image"
-                            width="30"
-                            height="30"
-                        />
+                        <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/user2-160x160.jpg"
+                            class="user-image rounded-circle shadow" alt="User Image" width="30" height="30" />
                         <span class="d-inline">{{ Auth::user()->nama_lengkap }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -129,83 +190,135 @@
     </nav>
 
     <section class="hero" id="home">
-    <div class="hero-overlay d-flex align-items-center">
-        <div class="container text-white">
-            <div class="d-flex align-items-center gap-4">
-                <img
-                    src="/AdminLTE-4.0.0-beta3/dist/assets/img/user2-160x160.jpg"
-                    class="user-image rounded-circle shadow"
-                    alt="User Image"
-                    style="width: 160px; height: 160px;"
-                />
-                <div>
-                    <h1 class="display-1 fw-bold mb-4" data-aos="fade-up">{{ Auth::user()->nama_lengkap}}</h1>
-                    <p class="lead mb-4" data-aos="fade-up" data-aos-delay="200">
-                        Point Saya: {{ number_format($member->total_poin ?? 0, 0, ',', '.') }}
-                    </p>
-                    <a href="#menu" class="btn btn-outline-light btn-lg" data-aos="fade-up" data-aos-delay="400">
-                        Pilih Menu
-                    </a>
+        <div class="hero-overlay d-flex align-items-center">
+            <div class="container text-white">
+                <div class="d-flex align-items-center gap-4">
+                    <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/user2-160x160.jpg"
+                        class="user-image rounded-circle shadow" alt="User Image"
+                        style="width: 160px; height: 160px;" />
+                    <div>
+                        <h1 class="display-1 fw-bold mb-4" data-aos="fade-up">{{ Auth::user()->nama_lengkap}}</h1>
+                        <p class="lead mb-4" data-aos="fade-up" data-aos-delay="200">
+                            Point Saya: {{ number_format($member->total_poin ?? 0, 0, ',', '.') }}
+                        </p>
+                        <a href="#menu" class="btn btn-outline-light btn-lg" data-aos="fade-up" data-aos-delay="400">
+                            Pilih Menu
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Menu Section -->
-    <section class="py-5" id="menu">
+    <section class="py-5 history" id="history">
         <div class="container">
             <h2 class="text-center mb-5">Menu Kami</h2>
             <div class="row g-4">
                 @forelse($products as $product)
-                <div class="col-md-4" data-aos="fade-up">
-                    <div class="card menu-card shadow">
-                        <img src="{{ $product->foto ? asset('uploads/' . $product->foto) : asset('images/default-product.jpg') }}" 
-                             class="menu-image" alt="{{ $product->nama_produk }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $product->nama_produk }}</h5>
-                            <p class="card-text">Rp {{ number_format($product->harga_produk, 0, ',', '.') }} / {{ number_format($product->harga_produk, 0, ',', '.') }} Point</p>
-                        </div>
-                        <div class="card-footer">
-                            <form action="#" method="post">
-                                @csrf
-                                <!-- <input type="hidden" name="product_id" value="{{ $product->id }}"> -->
-                                <button type="submit" class="btn btn-primary w-100">Tukar</button>
-                            </form>
+                    <div class="col-md-4" data-aos="fade-up">
+                        <div class="card menu-card shadow">
+                            <img src="{{ $product->foto ? asset('uploads/' . $product->foto) : asset('images/default-product.jpg') }}"
+                                class="menu-image" alt="{{ $product->nama_produk }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $product->nama_produk }}</h5>
+                                <p class="card-text">Rp {{ number_format($product->harga_produk, 0, ',', '.') }} /
+                                    {{ number_format($product->harga_produk, 0, ',', '.') }} Point
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <form action="{{route('customer.tukar') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="harga_produk" value="{{ $product->harga_produk }}">
+                                    <button type="submit" class="btn btn-primary w-100">Tukar</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @empty
-                <div class="col-12 text-center">
-                    <p>Tidak ada menu tersedia</p>
-                </div>
-            @endforelse
+                @empty
+                    <div class="col-12 text-center">
+                        <p>Tidak ada menu tersedia</p>
+                    </div>
+                @endforelse
                 <!-- Add more menu items -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Transaction History Section -->
+    <section class="py-5 bg-light" id="history" data-aos="fade-up">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Riwayat Penukaran</h2>
+            <div class="card shadow" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>ID Voucher</th>
+                                    <th>Point Terpakai</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            @if ($voucher->isEmpty())
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">
+                                        <img src="{{ asset('/build/assets/Animation - 1736668256622.gif') }}" alt="No Data"
+                                            style="width: 150px; margin-top: 10px;">
+                                    </td>
+                                </tr>
+                            @else
+                                <tbody>
+                                    @forelse($voucher as $transaction)
+                                        <tr>
+                                            <td>{{ $transaction->created_at->format('d M Y H:i') }}</td>
+                                            <td>{{ $transaction->kode_voucher }}</td>
+                                            <td>{{ number_format($transaction->poin_terpakai, 0, ',', '.') }}</td>
+                                            <td>
+                                                <span
+                                                    class="badge bg-{{ $transaction->status_voucher === 'Terverifikasi' ? 'success' : ($transaction->status_voucher === 'Ditolak' ? 'danger' : 'warning') }}">
+                                                    {{ $transaction->status_voucher }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center">Belum ada riwayat penukaran</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            @endif
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- About Section with Parallax -->
     <section class="parallax" id="about" style="background-image: url('/images/cafe-interior.jpg');">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center">
-            <div class="col-md-6" data-aos="fade-right">
-                <div class="bg-white p-4 rounded shadow">
-                    <h2>Cerita Kami</h2>
-                    <p class="lead">Menghadirkan Cita Rasa Sejak 2020</p>
-                    <p>Berawal dari passion kami terhadap kopi, kami membangun tempat ini untuk berbagi kehangatan dan kebahagiaan melalui secangkir kopi pilihan terbaik.</p>
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="bg-white p-4 rounded shadow">
+                        <h2>Cerita Kami</h2>
+                        <p class="lead">Menghadirkan Cita Rasa Sejak 2020</p>
+                        <p>Berawal dari passion kami terhadap kopi, kami membangun tempat ini untuk berbagi kehangatan
+                            dan kebahagiaan melalui secangkir kopi pilihan terbaik.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6" data-aos="fade-left">
-                <div class="bg-white p-4 rounded shadow">
-                    <h2>Komitmen Kami</h2>
-                    <p class="lead">Memberikan Yang Terbaik</p>
-                    <p>Setiap cangkir yang kami sajikan adalah hasil dari dedikasi kami dalam memilih biji kopi terbaik dalam menciptakan pengalaman kopi yang tak terlupakan.</p>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="bg-white p-4 rounded shadow">
+                        <h2>Komitmen Kami</h2>
+                        <p class="lead">Memberikan Yang Terbaik</p>
+                        <p>Setiap cangkir yang kami sajikan adalah hasil dari dedikasi kami dalam memilih biji kopi
+                            terbaik dalam menciptakan kopi yang tak terlupakan.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Gallery Section -->
     <section class="py-5" id="gallery">
@@ -213,15 +326,15 @@
             <h2 class="text-center mb-5">Gallery</h2>
             <div class="row g-4">
                 <!-- Gallery images with data-aos animations -->
-                <div class="col-md-4" data-aos="zoom-in">
-                  <img src="{{ asset('/build/assets/cafe1.jpg') }}"  class="gallery-img w-100" alt="Gallery">
+                <div class="col-md-6" data-aos="zoom-in">
+                    <img src="{{ asset('/uploads/Store.jpeg') }}" class="gallery-img w-100" alt="Gallery">
                 </div>
                 <!-- Add more gallery items -->
-                <div class="col-md-4" data-aos="zoom-in">
-                  <img src="{{ asset('/build/assets/cafe2.jpg') }}"  class="gallery-img w-100" alt="Gallery">
-                </div>
-                <div class="col-md-4" data-aos="zoom-in">
-                  <img src="{{ asset('/build/assets/cafe3.jpg') }}"  class="gallery-img w-100" alt="Gallery">
+                <!-- <div class="col-md-4" data-aos="zoom-in">
+                    <img src="{{ asset('/uploads/2.jpg') }}" class="gallery-img w-100" alt="Gallery">
+                </div> -->
+                <div class="col-md-6" data-aos="zoom-in">
+                    <img src="{{ asset('/uploads/store2.jpeg') }}" class="gallery-img w-100" alt="Gallery">
                 </div>
             </div>
         </div>
@@ -271,7 +384,7 @@
         AOS.init();
 
         // Navbar scroll effect
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             if (window.scrollY > 50) {
                 document.querySelector('.navbar').classList.add('scrolled');
             } else {
@@ -280,4 +393,5 @@
         });
     </script>
 </body>
+
 </html>

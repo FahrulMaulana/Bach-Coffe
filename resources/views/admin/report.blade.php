@@ -89,7 +89,7 @@
         <table class="table table-bordered">
           <thead class="table-secondary">
             <tr>
-              <th style="width: 10px">ID</th>
+              <th style="width: 10px"></th>
               <th>Username</th>
               <th>Nama Kasir</th>
               <th>Aksi</th>

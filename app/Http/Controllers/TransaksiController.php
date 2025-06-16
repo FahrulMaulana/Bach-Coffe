@@ -24,20 +24,20 @@ class TransaksiController extends Controller
     {
         try {
             DB::beginTransaction();
-            
+
             // Validate request
             $request->validate([
                 'products.*.id' => 'required|exists:tbl_produk,id_produk',
                 'products.*.quantity' => 'required|integer|min:1',
                 'id_member' => 'nullable|exists:tbl_member,id_member'
-            ],[
-            'products.*.id.required' => 'Produk harus dipilih.',
-            'products.*.id.exists' => 'Produk yang dipilih tidak valid.',
-            'products.*.quantity.required' => 'Jumlah produk harus diisi.',
-            'products.*.quantity.integer' => 'Jumlah produk harus berupa angka.',
-            'products.*.quantity.min' => 'Jumlah produk minimal 1.',
-            'id_member.exists' => 'Member yang dipilih tidak valid.'
-        ]);
+            ], [
+                'products.*.id.required' => 'Produk harus dipilih.',
+                'products.*.id.exists' => 'Produk yang dipilih tidak valid.',
+                'products.*.quantity.required' => 'Jumlah produk harus diisi.',
+                'products.*.quantity.integer' => 'Jumlah produk harus berupa angka.',
+                'products.*.quantity.min' => 'Jumlah produk minimal 1.',
+                'id_member.exists' => 'Member yang dipilih tidak valid.'
+            ]);
             // Create transaction header
             $transaction = transaksi::create([
                 'id_user' => Auth::user()->id_user,
@@ -47,14 +47,14 @@ class TransaksiController extends Controller
                 'poin_didapat' => $request->poin,
                 'is_member' => $request->id_member ? true : false,
             ]);
-            
+
             $totalHarga = 0;
 
             // Create transaction details
             foreach ($request->products as $product) {
                 $productData = produk::find($product['id']);
                 $subtotal = $productData->harga_produk * $product['quantity'];
-                
+
                 transaksiDetail::create([
                     'id_transaksi' => $transaction->id_transaksi,
                     'id_produk' => $product['id'],
@@ -76,7 +76,7 @@ class TransaksiController extends Controller
                 $member = Member::find($request->id_member);
                 $pointsEarned = floor($totalHarga * 0.01); // 1 point per 100
                 $member->update([
-                    'total_poin' => $member->total_poin + $pointsEarned
+                    'total_poin' => $member->total_poin + $pointsEarned - $request->poinuse
                 ]);
             }
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,7 @@
         :root {
             --primary-color: #3c2415;
             --secondary-color: #8b4513;
-            --accent-color:rgb(17, 16, 15);
+            --accent-color: rgb(17, 16, 15);
         }
 
         /* .hero {
@@ -38,8 +39,9 @@
         .hero {
             position: relative;
             height: 100vh;
-            background: url('{{ asset("/build/assets/anime.gif") }}') center/cover no-repeat;
-            background-color: #000; /* Fallback */
+            background: url('{{ asset("/uploads/neK.gif") }}') center/cover no-repeat;
+            background-color: #000;
+            /* Fallback */
         }
 
         .hero-overlay {
@@ -88,7 +90,7 @@
         }
 
         .contact-form {
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             padding: 30px;
         }
@@ -98,7 +100,7 @@
         }
 
         .navbar.scrolled {
-            background: rgba(0,0,0,0.9) !important;
+            background: rgba(0, 0, 0, 0.9) !important;
         }
 
         /* Custom scrollbar */
@@ -115,17 +117,14 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">
-            <img
-              src="/AdminLTE-4.0.0-beta3/dist/assets/img/AdminLTELogo.png"
-              alt="Bach Coffee"
-              class="brand-image opacity-75 shadow"
-              style="width: 50px; height: auto;"
-            />
+                <img src="/uploads/logobach.png" alt="Bach Coffee"
+                    class="brand-image opacity-75 shadow" style="width: 50px; height: auto;" />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -177,18 +176,18 @@
     </section> -->
 
     <section class="hero" id="home">
-    <div class="hero-overlay d-flex align-items-center">
-        <div class="container text-white text-center">
-            <h1 class="display-1 fw-bold mb-4" data-aos="fade-up">Bach Coffee</h1>
-            <p class="lead mb-4" data-aos="fade-up" data-aos-delay="200">
-                Nongkrong santuy dengan segelas kopi
-            </p>
-            <a href="#menu" class="btn btn-outline-light btn-lg" data-aos="fade-up" data-aos-delay="400">
-                Pilih Menu
-            </a>
+        <div class="hero-overlay d-flex align-items-center">
+            <div class="container text-white text-center">
+                <h1 class="display-1 fw-bold mb-4" data-aos="fade-up">Bach Coffee</h1>
+                <p class="lead mb-4" data-aos="fade-up" data-aos-delay="200">
+                    Nongkrong santuy dengan segelas kopi
+                </p>
+                <a href="#menu" class="btn btn-outline-light btn-lg" data-aos="fade-up" data-aos-delay="400">
+                    Pilih Menu
+                </a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Menu Section -->
     <section class="py-5" id="menu">
@@ -206,22 +205,24 @@
                     </div>
                 </div> -->
                 @forelse($products as $product)
-                <div class="col-md-4" data-aos="fade-up">
-                    <div class="card menu-card shadow">
-                        <img src="{{ $product->foto ? asset('uploads/' . $product->foto) : asset('images/default-product.jpg') }}" 
-                             class="menu-image" alt="{{ $product->nama_produk }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $product->nama_produk }}</h5>
-                            <p class="card-text">Rp {{ number_format($product->harga_produk, 0, ',', '.') }} / {{ number_format($product->harga_produk, 0, ',', '.') }} Point</p>
-                            <!-- <p class="card-text"> {{ number_format($product->harga_produk, 0, ',', '.') }} Point</p> -->
+                    <div class="col-md-4" data-aos="fade-up">
+                        <div class="card menu-card shadow">
+                            <img src="{{ $product->foto ? asset('uploads/' . $product->foto) : asset('images/default-product.jpg') }}"
+                                class="menu-image" alt="{{ $product->nama_produk }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $product->nama_produk }}</h5>
+                                <p class="card-text">Rp {{ number_format($product->harga_produk, 0, ',', '.') }} /
+                                    {{ number_format($product->harga_produk, 0, ',', '.') }} Point
+                                </p>
+                                <!-- <p class="card-text"> {{ number_format($product->harga_produk, 0, ',', '.') }} Point</p> -->
+                            </div>
                         </div>
                     </div>
-                </div>
-            @empty
-                <div class="col-12 text-center">
-                    <p>Tidak ada menu tersedia</p>
-                </div>
-            @endforelse
+                @empty
+                    <div class="col-12 text-center">
+                        <p>Tidak ada menu tersedia</p>
+                    </div>
+                @endforelse
                 <!-- Add more menu items -->
             </div>
         </div>
@@ -229,25 +230,27 @@
 
     <!-- About Section with Parallax -->
     <section class="parallax" id="about" style="background-image: url('/images/cafe-interior.jpg');">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center">
-            <div class="col-md-6" data-aos="fade-right">
-                <div class="bg-white p-4 rounded shadow">
-                    <h2>Cerita Kami</h2>
-                    <p class="lead">Menghadirkan Cita Rasa Sejak 2020</p>
-                    <p>Berawal dari passion kami terhadap kopi, kami membangun tempat ini untuk berbagi kehangatan dan kebahagiaan melalui secangkir kopi pilihan terbaik.</p>
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="bg-white p-4 rounded shadow">
+                        <h2>Cerita Kami</h2>
+                        <p class="lead">Menghadirkan Cita Rasa Sejak 2020</p>
+                        <p>Berawal dari passion kami terhadap kopi, kami membangun tempat ini untuk berbagi kehangatan
+                            dan kebahagiaan melalui secangkir kopi pilihan terbaik.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6" data-aos="fade-left">
-                <div class="bg-white p-4 rounded shadow">
-                    <h2>Komitmen Kami</h2>
-                    <p class="lead">Memberikan Yang Terbaik</p>
-                    <p>Setiap cangkir yang kami sajikan adalah hasil dari dedikasi kami dalam memilih biji kopi terbaik dalam menciptakan pengalaman kopi yang tak terlupakan.</p>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="bg-white p-4 rounded shadow">
+                        <h2>Komitmen Kami</h2>
+                        <p class="lead">Memberikan Yang Terbaik</p>
+                        <p>Setiap cangkir yang kami sajikan adalah hasil dari dedikasi kami dalam memilih biji kopi
+                            terbaik dalam menciptakan pengalaman kopi yang tak terlupakan.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Gallery Section -->
     <section class="py-5" id="gallery">
@@ -255,15 +258,15 @@
             <h2 class="text-center mb-5">Gallery</h2>
             <div class="row g-4">
                 <!-- Gallery images with data-aos animations -->
-                <div class="col-md-4" data-aos="zoom-in">
-                  <img src="{{ asset('/build/assets/cafe1.jpg') }}"  class="gallery-img w-100" alt="Gallery">
+                <div class="col-md-6" data-aos="zoom-in">
+                    <img src="{{ asset('/uploads/Store.jpeg') }}" class="gallery-img w-100" alt="Gallery">
                 </div>
                 <!-- Add more gallery items -->
-                <div class="col-md-4" data-aos="zoom-in">
-                  <img src="{{ asset('/build/assets/cafe2.jpg') }}"  class="gallery-img w-100" alt="Gallery">
-                </div>
-                <div class="col-md-4" data-aos="zoom-in">
-                  <img src="{{ asset('/build/assets/cafe3.jpg') }}"  class="gallery-img w-100" alt="Gallery">
+                <!-- <div class="col-md-4" data-aos="zoom-in">
+                    <img src="{{ asset('/uploads/2.jpg') }}" class="gallery-img w-100" alt="Gallery">
+                </div> -->
+                <div class="col-md-6" data-aos="zoom-in">
+                    <img src="{{ asset('/uploads/store2.jpeg') }}" class="gallery-img w-100" alt="Gallery">
                 </div>
             </div>
         </div>
@@ -313,7 +316,7 @@
         AOS.init();
 
         // Navbar scroll effect
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             if (window.scrollY > 50) {
                 document.querySelector('.navbar').classList.add('scrolled');
             } else {
@@ -322,4 +325,5 @@
         });
     </script>
 </body>
+
 </html>

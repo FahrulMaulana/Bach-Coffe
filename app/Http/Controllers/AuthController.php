@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\kasir;
+use App\Models\member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 
@@ -28,7 +29,7 @@ class AuthController extends Controller
 
         if (FacadesAuth::attempt(['username' => $request->username, 'password' => $request->password])) {
             if (FacadesAuth::user()->id_level == 3) {
-               return redirect()->intended('/customer/dashboard');
+                return redirect()->intended('/customer/dashboard');
             }
             return redirect()->intended('/admin/layout');
         } else {
@@ -55,6 +56,14 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
         $user->id_level = 3;
         $user->save();
+
+        $member = new member();
+        $member->nomor_hp = $request->nomor_hp;
+        $member->nama_member = $request->nama;
+        $member->email = $request->email;
+        $member->total_poin = 0;
+        $member->id_user = $user->id_user;
+        $member->save();
 
         return redirect()->route('login')->with('success', 'Registration successful. Please login.');
     }

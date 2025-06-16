@@ -8,6 +8,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\VoucherController;
 use App\Http\Middleware\CekLevel;
 use Illuminate\Support\Facades\Route;
 
@@ -22,15 +23,24 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // })->name('landing');
 
 Route::middleware([CekLevel::class . ':1, 2, 3'])->group(function () {
-    Route::get('/admin/layout', function () {return view('layout');});
+    Route::get('/admin/layout', function () {
+        return view('layout');
+    });
 });
 
 Route::middleware([CekLevel::class . ':1, 2'])->group(function () {
-    Route::get('/admin/layout', function () {return view('layout');});
+    Route::get('/admin/layout', function () {
+        return view('layout');
+    });
+    Route::get('/admin/voucher', [VoucherController::class, 'index'])->name('voucher');
+    Route::post('/admin/voucher', [VoucherController::class, 'store'])->name('voucher.store');
+    Route::post('/admin/voucherr', [VoucherController::class, 'decline'])->name('voucher.decline');
     Route::get('/admin/transaksi', [TransaksiController::class, 'index'])->name('transaksi');
     Route::post('/admin/transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
     Route::get('/admin/laporan', [LaporanController::class, 'index'])->name('laporan');
     Route::get('/admin/laporan/{id_transaksi}', [LaporanController::class, 'show'])->name('laporan.show');
+    Route::get('/member/{id_member}/points', [MemberController::class, 'getPoints']);
+    Route::get('/laporan/export', [LaporanController::class, 'export'])->name('laporan.export');
 });
 
 Route::middleware([CekLevel::class . ':1'])->group(function () {
@@ -47,14 +57,16 @@ Route::middleware([CekLevel::class . ':1'])->group(function () {
     Route::post('/admin/produk/update/{id_produk}', [ProdukController::class, 'update'])->name('produk.update');
     Route::post('/admin/produk/delete/{id_produk}', [ProdukController::class, 'destroy'])->name('produk.destroy');
     // Route::get('/admin/laporan', function () {return view('admin.report');});
-    Route::get('/admin/voucher', function () {return view('admin.voucher');});
+    // Route::get('/admin/voucher', function () {
+    //     return view('admin.voucher');
+    // });
     Route::resource('produk', ProdukController::class);
 });
 
-Route::middleware([CekLevel::class . ':2'])->group(function () {});
+Route::middleware([CekLevel::class . ':2'])->group(function () { });
 
 Route::middleware([CekLevel::class . ':3'])->group(function () {
     Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
-    Route::get('/customer/produk', [CustomerController::class, 'produk'])->name('customer.produk');
+    Route::post('/customer/tukar-poin', [CustomerController::class, 'store'])->name('customer.tukar');
     Route::get('/customer/produk/{id_produk}', [CustomerController::class, 'show'])->name('customer.show');
 });

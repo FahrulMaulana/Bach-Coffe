@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\kasir;
 use App\Models\member;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,8 +14,8 @@ class MemberController extends Controller
     public function index()
     {
         $member = kasir::with('member')
-        ->where('id_level', 3)
-        ->paginate(5);
+            ->where('id_level', 3)
+            ->paginate(5);
 
         $user = Auth::user();
         // dd($member->);
@@ -25,8 +26,8 @@ class MemberController extends Controller
     {
         $request->validate([
             'nomor_hp' => 'required|numeric|digits_between:10,14',
-            'nama_member'=> 'required|string|max:25',
-            'email'=> 'required|email|max:25',
+            'nama_member' => 'required|string|max:25',
+            'email' => 'required|email|max:25',
         ], [
             'nomor_hp.required' => 'Nomor HP wajib diisi.',
             'nomor_hp.numeric' => 'Nomor HP harus berupa angka.',
@@ -44,8 +45,8 @@ class MemberController extends Controller
             return redirect()->route('member')->with('error', 'Nomor HP sudah terdaftar.');
         }
 
-        $CekEmailmemmber =member::where('email', $request->email)->first();
-        if($CekEmailmemmber){
+        $CekEmailmemmber = member::where('email', $request->email)->first();
+        if ($CekEmailmemmber) {
             return redirect()->route('member')->with('error', 'Email sudah terdaftar.');
         }
 
@@ -72,8 +73,8 @@ class MemberController extends Controller
     {
         $request->validate([
             'nomor_hp' => 'required|numeric|digits_between:10,14',
-            'nama_member'=> 'required|string|max:25',
-            'email'=> 'required|email|max:25',
+            'nama_member' => 'required|string|max:25',
+            'email' => 'required|email|max:25',
         ], [
             'nomor_hp.required' => 'Nomor HP wajib diisi.',
             'nomor_hp.numeric' => 'Nomor HP harus berupa angka.',
@@ -94,6 +95,14 @@ class MemberController extends Controller
         $member->update();
 
         return redirect()->route('member')->with('success', 'Member berhasil diupdate.');
+    }
+
+    public function getPoints($id_member): JsonResponse
+    {
+        $member = Member::findOrFail($id_member);
+        return response()->json([
+            'total_poin' => $member->total_poin
+        ]);
     }
 
     public function destroy($id_member)
