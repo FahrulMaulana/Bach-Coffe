@@ -166,7 +166,7 @@
                                 <div class="modal-header"
                                     style="padding: 15px; display: flex; justify-content: center; align-items: center;">
                                     <h1 class="modal-title fs-5" id="staticBackdropLabel"
-                                        style="font-weight: bold; text-align: center; margin: 0;">Tambah Kasir</h1>
+                                        style="font-weight: bold; text-align: center; margin: 0;">Tambah Produk</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                                         style="background-color: white; opacity: 1; border-radius: 50%;"></button>
                                 </div>
@@ -229,7 +229,7 @@
                                 <div class="modal-header"
                                     style="padding: 15px; display: flex; justify-content: center; align-items: center;">
                                     <h1 class="modal-title fs-5" id="staticBackdropLabel"
-                                        style="font-weight: bold; text-align: center; margin: 0;">Update Kasir</h1>
+                                        style="font-weight: bold; text-align: center; margin: 0;">Update Produk</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                                         style="background-color: white; opacity: 1; border-radius: 50%;"></button>
                                 </div>
@@ -292,7 +292,7 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Member</h1>
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Produk</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
