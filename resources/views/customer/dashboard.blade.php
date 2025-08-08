@@ -278,6 +278,34 @@
             transform: scale(1.05);
         }
 
+                /* Footer Links Hover Effects */
+        footer ul li a {
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 0;
+        }
+
+        footer ul li a:hover {
+            color: white !important;
+            padding-left: 10px;
+        }
+
+        footer ul li a:hover i {
+            color: var(--cream-light) !important;
+        }
+
+        /* Social Media Icons Hover Effects */
+        footer .rounded-circle:hover {
+            background: rgba(255, 255, 255, 0.2) !important;
+            transform: translateY(-3px);
+            color: white !important;
+        }
+
+        /* Footer Contact Info */
+        footer .text-danger {
+            color: var(--cream-light) !important;
+        }
+
         .user-info h1 {
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -633,19 +661,19 @@
                 <!-- Quick Stats -->
                 <div class="row mt-5" data-aos="fade-up" data-aos-delay="800">
                     <div class="col-md-4 text-center">
-                        <div class="bg-white bg-opacity-20 p-3 rounded-4 backdrop-blur">
+                        <div class="bg-opacity-20 p-3 rounded-4 backdrop-blur">
                             <h3 class="fw-bold">{{ $voucher->count() }}</h3>
                             <p class="mb-0">Total Transaksi</p>
                         </div>
                     </div>
                     <div class="col-md-4 text-center">
-                        <div class="bg-white bg-opacity-20 p-3 rounded-4 backdrop-blur">
+                        <div class="bg-opacity-20 p-3 rounded-4 backdrop-blur">
                             <h3 class="fw-bold">{{ $voucher->where('status_voucher', 'Terverifikasi')->count() }}</h3>
                             <p class="mb-0">Berhasil</p>
                         </div>
                     </div>
                     <div class="col-md-4 text-center">
-                        <div class="bg-white bg-opacity-20 p-3 rounded-4 backdrop-blur">
+                        <div class="bg-opacity-20 p-3 rounded-4 backdrop-blur">
                             <h3 class="fw-bold">{{ number_format($member->total_poin ?? 0, 0, ',', '.') }}</h3>
                             <p class="mb-0">Poin Tersisa</p>
                         </div>
@@ -986,43 +1014,107 @@
         </div>
     </section>
 
-    <!-- Modern Footer -->
-    <footer class="text-white text-center py-5">
+     <!-- Modern Footer -->
+    <footer class="text-white py-5">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
+                <!-- Brand Section -->
+                <div class="col-lg-4 mb-4 mb-lg-0 text-center text-lg-start">
                     <div class="d-flex align-items-center justify-content-center justify-content-lg-start mb-3">
                         <img src="/uploads/logobach.png" alt="Bach Coffee" class="me-3" style="width: 50px; height: 50px; border-radius: 12px;">
                         <h4 class="mb-0 fw-bold">Bach Coffee</h4>
                     </div>
-                    <p class="text-white-50">
+                    <p class="text-white-50 mb-3">
                         Menghadirkan pengalaman kopi terbaik dengan cita rasa yang tak terlupakan sejak 2020.
                     </p>
+                    <div class="d-flex justify-content-center justify-content-lg-start gap-2">
+                        <div class="bg-white bg-opacity-10 rounded-circle p-2">
+                            <i class="bi bi-award text-warning"></i>
+                        </div>
+                        <small class="text-white-50 align-self-center">Kualitas Terpercaya</small>
+                    </div>
                 </div>
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h5 class="fw-bold mb-3">Tautan Cepat</h5>
+                
+                <!-- Quick Links Section -->
+                <div class="col-lg-4 mb-4 mb-lg-0 text-center text-lg-start">
+                    <h5 class="fw-bold mb-4">Tautan Cepat</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#home" class="text-white-50 text-decoration-none">Beranda</a></li>
-                        <li class="mb-2"><a href="#menu" class="text-white-50 text-decoration-none">Menu</a></li>
-                        <li class="mb-2"><a href="#about" class="text-white-50 text-decoration-none">Tentang</a></li>
-                        <li class="mb-2"><a href="#contact" class="text-white-50 text-decoration-none">Kontak</a></li>
+                        <li class="mb-2">
+                            <a href="#home" class="text-white-50 text-decoration-none d-inline-flex align-items-center transition-all">
+                                <i class="bi bi-chevron-right me-2"></i>Beranda
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#menu" class="text-white-50 text-decoration-none d-inline-flex align-items-center transition-all">
+                                <i class="bi bi-chevron-right me-2"></i>Menu Kami
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#about" class="text-white-50 text-decoration-none d-inline-flex align-items-center transition-all">
+                                <i class="bi bi-chevron-right me-2"></i>Tentang Kami
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#gallery" class="text-white-50 text-decoration-none d-inline-flex align-items-center transition-all">
+                                <i class="bi bi-chevron-right me-2"></i>Galeri
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#contact" class="text-white-50 text-decoration-none d-inline-flex align-items-center transition-all">
+                                <i class="bi bi-chevron-right me-2"></i>Kontak
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3">Ikuti Kami</h5>
+                
+                <!-- Contact & Social Section -->
+                <div class="col-lg-4 text-center text-lg-start">
+                    <h5 class="fw-bold mb-4">Hubungi Kami</h5>
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center justify-content-center justify-content-lg-start mb-2">
+                            <i class="bi bi-geo-alt-fill me-2 text-danger"></i>
+                            <small class="text-white-50">Jl. Kopi Nikmat No. 123, Jakarta</small>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center justify-content-lg-start mb-2">
+                            <i class="bi bi-telephone-fill me-2 text-danger"></i>
+                            <small class="text-white-50">(021) 123-4567</small>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center justify-content-lg-start mb-3">
+                            <i class="bi bi-envelope-fill me-2 text-danger"></i>
+                            <small class="text-white-50">info@bachcoffee.com</small>
+                        </div>
+                    </div>
+                    
+                    <h6 class="fw-bold mb-3">Ikuti Kami</h6>
                     <div class="d-flex justify-content-center justify-content-lg-start gap-3">
-                        <a href="#" class="text-white-50 fs-4"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-white-50 fs-4"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-white-50 fs-4"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="text-white-50 fs-4"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#" class="text-white-50 d-flex align-items-center justify-content-center bg-white bg-opacity-10 rounded-circle" 
+                           style="width: 40px; height: 40px; transition: all 0.3s ease;">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="text-white-50 d-flex align-items-center justify-content-center bg-white bg-opacity-10 rounded-circle" 
+                           style="width: 40px; height: 40px; transition: all 0.3s ease;">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="text-white-50 d-flex align-items-center justify-content-center bg-white bg-opacity-10 rounded-circle" 
+                           style="width: 40px; height: 40px; transition: all 0.3s ease;">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#" class="text-white-50 d-flex align-items-center justify-content-center bg-white bg-opacity-10 rounded-circle" 
+                           style="width: 40px; height: 40px; transition: all 0.3s ease;">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
                     </div>
                 </div>
             </div>
+            
+            <!-- Footer Bottom -->
             <hr class="my-4 opacity-25">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 text-center">
                     <p class="mb-0 text-white-50">
-                        &copy; {{ date('Y') }} Bach Coffee. Semua hak dilindungi. 
+                        &copy; {{ date('Y') }} Bach Coffee. Semua hak dilindungi.
+                    </p>
+                    <p class="mb-0 mt-2">
                         <span class="text-white">Made with <i class="bi bi-heart-fill text-danger"></i> for coffee lovers</span>
                     </p>
                 </div>

@@ -401,7 +401,7 @@
               </tr>
             </thead>
             <tbody>
-              @if ($kasir->isEmpty())
+              @if (isset($kasir) && $kasir->isEmpty())
                 <tr>
                   <td colspan="4" class="no-data-state">
                     <img src="{{ asset('/build/assets/Animation - 1736668256622.gif') }}" alt="No Data" style="width: 150px;">
@@ -409,7 +409,7 @@
                     <p>Klik tombol "Tambah Kasir" untuk menambah data baru</p>
                   </td>
                 </tr>
-              @else
+              @elseif(isset($kasir))
                 @foreach ($kasir as $data)
                   <tr>
                     <td class="fw-bold">{{ $data->id_user }}</td>
@@ -438,12 +438,20 @@
                     </td>
                   </tr>
                 @endforeach
+              @else
+                <tr>
+                  <td colspan="4" class="no-data-state">
+                    <i class="bi bi-exclamation-triangle fs-1 text-warning mb-3"></i>
+                    <h5 class="mt-3">Data tidak tersedia</h5>
+                    <p>Terjadi kesalahan dalam memuat data kasir</p>
+                  </td>
+                </tr>
               @endif
             </tbody>
           </table>
 
           <!-- Modern Pagination -->
-          @if (!$kasir->isEmpty())
+          @if (isset($kasir) && !$kasir->isEmpty())
             <nav aria-label="Navigasi halaman" class="mt-4">
               <ul class="pagination justify-content-end">
                 <!-- Previous Page -->
@@ -603,7 +611,7 @@
         </button>
         <form id="deleteForm" action="{{ url('/admin/hapuskasir') }}/" method="POST" style="display: inline;">
           @csrf
-          <input type="hidden" name="id_member" id="id_kasir3">
+          <input type="hidden" name="id_kasir" id="id_kasir3">
           <button type="submit" class="btn btn-danger">
             <i class="bi bi-trash me-2"></i>Ya, Hapus
           </button>

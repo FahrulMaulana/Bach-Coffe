@@ -50,7 +50,7 @@
                           <i class="bi bi-arrow-up me-1"></i>+12% dari bulan lalu
                         </small>
                       </div>
-                      <div class="bg-white bg-opacity-20 rounded-circle p-3">
+                      <div class="bg-opacity-20 rounded-circle p-3">
                         <i class="bi bi-cart-plus fs-3"></i>
                       </div>
                     </div>
@@ -58,7 +58,7 @@
                       <i class="bi bi-cart-plus"></i>
                     </div>
                   </div>
-                  <div class="card-footer bg-white bg-opacity-10 border-0 p-3">
+                  <div class="card-footer bg-opacity-10 border-0 p-3">
                     <a href="#" class="text-white text-decoration-none d-flex align-items-center justify-content-between">
                       <span>Lihat Detail</span>
                       <i class="bi bi-arrow-right"></i>
@@ -83,7 +83,7 @@
                           <i class="bi bi-arrow-up me-1"></i>+5% dari bulan lalu
                         </small>
                       </div>
-                      <div class="bg-white bg-opacity-20 rounded-circle p-3">
+                      <div class="bg-opacity-20 rounded-circle p-3">
                         <i class="bi bi-bar-chart fs-3"></i>
                       </div>
                     </div>
@@ -91,7 +91,7 @@
                       <i class="bi bi-bar-chart"></i>
                     </div>
                   </div>
-                  <div class="card-footer bg-white bg-opacity-10 border-0 p-3">
+                  <div class="card-footer bg-opacity-10 border-0 p-3">
                     <a href="#" class="text-white text-decoration-none d-flex align-items-center justify-content-between">
                       <span>Lihat Detail</span>
                       <i class="bi bi-arrow-right"></i>
@@ -114,7 +114,7 @@
                           <i class="bi bi-arrow-up me-1"></i>+8% dari bulan lalu
                         </small>
                       </div>
-                      <div class="bg-white bg-opacity-20 rounded-circle p-3">
+                      <div class="bg-opacity-20 rounded-circle p-3">
                         <i class="bi bi-person-plus fs-3"></i>
                       </div>
                     </div>
@@ -122,7 +122,7 @@
                       <i class="bi bi-person-plus"></i>
                     </div>
                   </div>
-                  <div class="card-footer bg-white bg-opacity-10 border-0 p-3">
+                  <div class="card-footer bg-opacity-10 border-0 p-3">
                     <a href="#" class="text-white text-decoration-none d-flex align-items-center justify-content-between">
                       <span>Lihat Detail</span>
                       <i class="bi bi-arrow-right"></i>
@@ -145,7 +145,7 @@
                           <i class="bi bi-arrow-up me-1"></i>+15% dari bulan lalu
                         </small>
                       </div>
-                      <div class="bg-white bg-opacity-20 rounded-circle p-3">
+                      <div class="bg-opacity-20 rounded-circle p-3">
                         <i class="bi bi-eye fs-3"></i>
                       </div>
                     </div>
@@ -153,7 +153,7 @@
                       <i class="bi bi-eye"></i>
                     </div>
                   </div>
-                  <div class="card-footer bg-white bg-opacity-10 border-0 p-3">
+                  <div class="card-footer bg-opacity-10 border-0 p-3">
                     <a href="#" class="text-white text-decoration-none d-flex align-items-center justify-content-between">
                       <span>Lihat Detail</span>
                       <i class="bi bi-arrow-right"></i>
@@ -168,26 +168,26 @@
             <!--begin::Row-->
             <div class="row g-4 mt-4">
               <!-- Start col -->
-              <div class="col-lg-8">
+              <div class="col-lg-8 col-md-12">
                 <div class="card border-0 shadow-sm" style="border-radius: var(--border-radius); overflow: hidden;">
-                  <div class="card-header d-flex justify-content-between align-items-center" style="background: var(--cream-gradient); border: none; padding: 1.5rem;">
-                    <div>
+                  <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center" style="background: var(--cream-gradient); border: none; padding: 1.5rem;">
+                    <div class="mb-2 mb-md-0">
                       <h4 class="card-title mb-1 fw-bold" style="color: var(--text-primary);">
                         <i class="bi bi-graph-up me-2" style="color: var(--red-primary);"></i>
                         Penjualan Harian
                       </h4>
-                      <p class="mb-0 text-muted">Grafik penjualan 7 hari terakhir</p>
+                      <!-- <p class="mb-0 text-muted">Grafik penjualan 7 hari terakhir</p> -->
                     </div>
-                    <div class="dropdown">
+                    <!-- <div class="dropdown">
                       <button class="btn btn-sm" style="background: var(--red-light); color: var(--red-primary); border: none; border-radius: 8px;" type="button" data-bs-toggle="dropdown">
                         <i class="bi bi-three-dots-vertical"></i>
                       </button>
-                      <ul class="dropdown-menu">
+                      <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#">Hari Ini</a></li>
                         <li><a class="dropdown-item" href="#">Minggu Ini</a></li>
                         <li><a class="dropdown-item" href="#">Bulan Ini</a></li>
                       </ul>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="card-body" style="padding: 2rem;">
                     <div id="revenue-chart" style="min-height: 300px;">
@@ -205,14 +205,14 @@
               <!-- /.Start col -->
               
               <!-- Start col -->
-              <div class="col-lg-4">
+              <div class="col-lg-4 col-md-12">
                 <div class="card border-0 shadow-sm" style="background: var(--red-gradient); color: white; border-radius: var(--border-radius); overflow: hidden;">
-                  <div class="card-header border-0 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.1); padding: 1.5rem;">
-                    <div>
+                  <div class="card-header border-0 d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center" style="background: rgba(255,255,255,0.1); padding: 1.5rem;">
+                    <div class="mb-2 mb-sm-0 flex-grow-1">
                       <h5 class="card-title mb-1 fw-bold">Menu Terpopuler</h5>
-                      <p class="mb-0 opacity-90">Produk terlaris bulan ini</p>
+                      <!-- <p class="mb-0 opacity-90 small">Produk terlaris bulan ini</p> -->
                     </div>
-                    <button type="button" class="btn btn-sm text-white" style="background: rgba(255,255,255,0.2); border: none; border-radius: 8px;" data-bs-toggle="collapse" data-bs-target="#popularMenus">
+                    <button type="button" class="btn btn-sm text-white flex-shrink-0" style="background: rgba(255,255,255,0.2); border: none; border-radius: 8px;" data-bs-toggle="collapse" data-bs-target="#popularMenus">
                       <i class="bi bi-chevron-down"></i>
                     </button>
                   </div>
@@ -221,7 +221,7 @@
                     <div class="d-flex flex-column gap-3">
                       <div class="d-flex align-items-center justify-content-between p-3 rounded-3" style="background: rgba(255,255,255,0.1);">
                         <div class="d-flex align-items-center">
-                          <div class="bg-white bg-opacity-20 rounded-circle p-2 me-3">
+                          <div class="bg-opacity-20 rounded-circle p-2 me-3">
                             <i class="bi bi-cup-hot"></i>
                           </div>
                           <div>
@@ -229,12 +229,12 @@
                             <small class="opacity-75">127 terjual</small>
                           </div>
                         </div>
-                        <span class="badge bg-white text-dark">1</span>
+                        <span class="badge text-dark">1</span>
                       </div>
                       
                       <div class="d-flex align-items-center justify-content-between p-3 rounded-3" style="background: rgba(255,255,255,0.1);">
                         <div class="d-flex align-items-center">
-                          <div class="bg-white bg-opacity-20 rounded-circle p-2 me-3">
+                          <div class="bg-opacity-20 rounded-circle p-2 me-3">
                             <i class="bi bi-cup-straw"></i>
                           </div>
                           <div>
@@ -242,12 +242,12 @@
                             <small class="opacity-75">98 terjual</small>
                           </div>
                         </div>
-                        <span class="badge bg-white text-dark">2</span>
+                        <span class="badge text-dark">2</span>
                       </div>
                       
                       <div class="d-flex align-items-center justify-content-between p-3 rounded-3" style="background: rgba(255,255,255,0.1);">
                         <div class="d-flex align-items-center">
-                          <div class="bg-white bg-opacity-20 rounded-circle p-2 me-3">
+                          <div class="bg-opacity-20 rounded-circle p-2 me-3">
                             <i class="bi bi-egg-fried"></i>
                           </div>
                           <div>
@@ -255,7 +255,7 @@
                             <small class="opacity-75">76 terjual</small>
                           </div>
                         </div>
-                        <span class="badge bg-white text-dark">3</span>
+                        <span class="badge text-dark">3</span>
                       </div>
                     </div>
                   </div>
@@ -295,6 +295,74 @@
       </main>
       <!--end::App Main-->
 @endsection
+
+@push('styles')
+<style>
+/* Fix for text wrapping in dashboard cards */
+@media (max-width: 1199.98px) {
+  .card-header {
+    padding: 1rem !important;
+  }
+  
+  .card-header .card-title {
+    font-size: 1.1rem !important;
+  }
+  
+  .card-header p {
+    font-size: 0.85rem !important;
+    line-height: 1.3 !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .card-header {
+    padding: 0.75rem !important;
+  }
+  
+  .card-header .card-title {
+    font-size: 1rem !important;
+  }
+  
+  .card-header p {
+    font-size: 0.8rem !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .card-header {
+    text-align: center !important;
+  }
+  
+  .card-header .btn {
+    margin-top: 0.5rem !important;
+  }
+}
+
+/* Prevent text overflow */
+.card-header div {
+  min-width: 0;
+  word-wrap: break-word;
+}
+
+.card-header .flex-grow-1 {
+  overflow: hidden;
+}
+
+.card-header .flex-grow-1 p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 576px) {
+  .card-header .flex-grow-1 p {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+}
+</style>
+@endpush
 
 
 

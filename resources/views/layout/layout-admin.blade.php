@@ -56,6 +56,11 @@
             --text-secondary: #6b7280;
             --border-radius: 16px;
             --border-radius-lg: 24px;
+            
+            /* Performance optimizations */
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.4s ease;
         }
 
         * {
@@ -65,6 +70,15 @@
         body {
             background: var(--cream-light) !important;
             font-family: 'Poppins', sans-serif !important;
+            /* Performance optimization */
+            will-change: auto;
+            contain: layout style paint;
+        }
+
+        /* Optimized animations - use transform instead of other properties */
+        .optimized-transition {
+            transition: transform var(--transition-fast), opacity var(--transition-fast);
+            will-change: transform, opacity;
         }
 
         /* Modern Header */
@@ -74,12 +88,14 @@
             box-shadow: var(--modern-shadow) !important;
             backdrop-filter: blur(20px);
             padding: 0.75rem 0 !important;
+            /* Performance optimization */
+            contain: layout style;
         }
 
         .app-header .navbar-nav .nav-link {
             color: rgba(255, 255, 255, 0.9) !important;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: var(--transition-fast);
             border-radius: 12px;
             margin: 0 5px;
             padding: 10px 15px !important;
@@ -91,12 +107,15 @@
             transform: translateY(-2px);
         }
 
-        /* Modern Sidebar */
+        /* Modern Sidebar - Optimized */
         .app-sidebar {
             background: var(--cream-gradient) !important;
             border-right: 1px solid var(--cream-dark) !important;
             box-shadow: var(--modern-shadow) !important;
             width: 280px !important;
+            /* Performance optimization */
+            contain: layout style;
+            transform: translateZ(0); /* Force hardware acceleration */
         }
 
         .sidebar-brand {
@@ -126,7 +145,7 @@
             color: white !important;
         }
 
-        /* Modern Sidebar Menu */
+        /* Modern Sidebar Menu - Performance Optimized */
         .sidebar-menu .nav-item {
             margin: 5px 15px !important;
         }
@@ -137,10 +156,13 @@
             font-weight: 500 !important;
             padding: 12px 20px !important;
             margin: 3px 0 !important;
-            transition: all 0.3s ease !important;
+            transition: var(--transition-fast) !important;
             display: flex !important;
             align-items: center !important;
             gap: 12px !important;
+            /* Performance optimization */
+            will-change: transform, background-color;
+            transform: translateZ(0);
         }
 
         .sidebar-menu .nav-link i {
@@ -152,7 +174,7 @@
         .sidebar-menu .nav-link:hover {
             background: var(--red-light) !important;
             color: var(--red-primary) !important;
-            transform: translateX(5px);
+            transform: translateX(5px) translateZ(0);
             box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
         }
 
@@ -171,11 +193,33 @@
             animation: spin 1s linear infinite;
         }
 
-        /* Modern Main Content */
+        /* Modern Main Content - Optimized */
         .app-main {
             background: var(--cream-light) !important;
             min-height: calc(100vh - 80px);
             padding: 1rem !important;
+            /* Performance optimization */
+            contain: layout style;
+        }
+
+        #main-content {
+            /* Performance optimization for content transitions */
+            transition: opacity var(--transition-fast), transform var(--transition-fast);
+            will-change: opacity, transform;
+            transform: translateZ(0);
+        }
+
+        /* Fast loading states */
+        .content-loading {
+            opacity: 0.6;
+            transform: translateY(10px) translateZ(0);
+            pointer-events: none;
+        }
+
+        .content-loaded {
+            opacity: 1;
+            transform: translateY(0) translateZ(0);
+            pointer-events: auto;
         }
 
         /* Modern Footer */
@@ -199,7 +243,7 @@
             color: var(--text-primary) !important;
             font-weight: 500 !important;
             padding: 12px 20px !important;
-            transition: all 0.3s ease;
+            transition: var(--transition-fast);
         }
 
         .dropdown-item:hover {
@@ -210,12 +254,12 @@
         /* Modern User Menu */
         .user-image {
             border: 3px solid rgba(255, 255, 255, 0.3) !important;
-            transition: all 0.3s ease;
+            transition: var(--transition-fast);
         }
 
         .user-menu:hover .user-image {
             border-color: white !important;
-            transform: scale(1.05);
+            transform: scale(1.05) translateZ(0);
         }
 
         .user-header {
@@ -235,7 +279,7 @@
             font-size: 0.75rem !important;
         }
 
-        /* Modern Buttons */
+        /* Modern Buttons - Optimized */
         .btn-default {
             background: var(--cream-secondary) !important;
             border: 2px solid var(--cream-dark) !important;
@@ -243,20 +287,27 @@
             font-weight: 600 !important;
             border-radius: var(--border-radius) !important;
             padding: 10px 20px !important;
-            transition: all 0.3s ease;
+            transition: var(--transition-fast);
+            will-change: transform, background-color;
         }
 
         .btn-default:hover {
             background: var(--red-primary) !important;
             border-color: var(--red-primary) !important;
             color: white !important;
-            transform: translateY(-2px);
+            transform: translateY(-2px) translateZ(0);
         }
 
-        /* Mobile Responsive */
+        /* Mobile Responsive - Enhanced */
         @media (max-width: 768px) {
             .app-sidebar {
                 width: 250px !important;
+                transform: translateX(-100%) translateZ(0);
+                transition: transform var(--transition-fast);
+            }
+            
+            .sidebar-expand .app-sidebar {
+                transform: translateX(0) translateZ(0);
             }
             
             .app-main {
@@ -268,72 +319,115 @@
                 margin-left: 0 !important;
                 padding: 0.5rem 0.75rem !important;
             }
+            
+            .sidebar-menu .nav-link {
+                padding: 10px 15px !important;
+                margin: 2px 0 !important;
+            }
         }
 
-        /* Smooth Animations */
-        * {
-            transition: all 0.3s ease;
+        @media (max-width: 576px) {
+            .app-main {
+                padding: 0.5rem !important;
+            }
+            
+            .sidebar-menu .nav-link {
+                font-size: 0.9rem;
+                padding: 8px 12px !important;
+            }
+            
+            .brand-text {
+                font-size: 1.2rem !important;
+            }
         }
 
-        /* Content Loading Animation */
-        #main-content {
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .content-loading {
-            opacity: 0.7;
-            transform: translateY(10px);
-        }
-
-        .content-loaded {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Smooth page transitions */
+        /* Optimized Animations */
         .page-transition {
-            animation: slideInFromRight 0.4s ease-out;
+            animation: slideInFromRight var(--transition-normal) ease-out;
         }
 
         @keyframes slideInFromRight {
             from {
                 opacity: 0;
-                transform: translateX(30px);
+                transform: translateX(30px) translateZ(0);
             }
             to {
                 opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInFromLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
+                transform: translateX(0) translateZ(0);
             }
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(20px) translateZ(0);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) translateZ(0);
             }
         }
 
-        /* Enhanced loading animation */
+        /* Enhanced loading animation - Optimized */
         .loading-content {
-            animation: fadeIn 0.3s ease-in;
+            animation: fadeIn var(--transition-fast) ease-in;
         }
 
-        /* Custom Scrollbar */
+        /* Preload state optimization */
+        .preload * {
+            transition: none !important;
+            animation: none !important;
+        }
+
+        /* Page transition optimizations */
+        .page-transition {
+            opacity: 0;
+            transform: translateY(10px) translateZ(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .page-transition.loaded {
+            opacity: 1;
+            transform: translateY(0) translateZ(0);
+        }
+
+        /* Lazy loading optimization */
+        .lazy-load {
+            opacity: 0;
+            transform: translateY(20px) translateZ(0);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .lazy-load.loaded {
+            opacity: 1;
+            transform: translateY(0) translateZ(0);
+        }
+
+        /* Enhanced content loading state */
+        .content-loading {
+            opacity: 0.7;
+            transform: scale(0.98) translateZ(0);
+            transition: all var(--transition-medium) ease;
+        }
+
+        .content-loaded {
+            opacity: 1;
+            transform: scale(1) translateZ(0);
+            animation: slideInFromBottom 0.3s ease;
+        }
+
+        @keyframes slideInFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(15px) translateZ(0);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) translateZ(0);
+            }
+        }
+
+        /* Custom Scrollbar - Optimized */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -351,33 +445,136 @@
             background: var(--red-secondary);
         }
 
-        /* Loading Animation */
+        /* Loading Animation - GPU Accelerated */
         .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(245, 241, 235, 0.9);
+            background: linear-gradient(135deg, 
+                rgba(139, 69, 19, 0.95) 0%, 
+                rgba(160, 82, 45, 0.95) 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             backdrop-filter: blur(5px);
+            /* Performance optimization */
+            will-change: opacity, transform;
+            transform: translateZ(0);
+            opacity: 0;
+            transition: opacity var(--transition-medium) ease;
         }
 
         .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--cream-dark);
-            border-top: 5px solid var(--red-primary);
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--cream-dark);
+            border-top: 3px solid var(--red-primary);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
+            /* Performance optimization */
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% { transform: rotate(0deg) translateZ(0); }
+            100% { transform: rotate(360deg) translateZ(0); }
+        }
+
+        /* Content loading overlay - Optimized */
+        #content-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(245, 241, 235, 0.85);
+            z-index: 999;
+            backdrop-filter: blur(3px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--border-radius);
+            /* Performance optimization */
+            will-change: opacity, transform;
+            transform: translateZ(0);
+            opacity: 0;
+            transition: opacity var(--transition-fast) ease;
+        }
+
+        #content-loading.show {
+            opacity: 1;
+        }
+
+        /* Optimize card animations */
+        .card {
+            transition: var(--transition-fast);
+            will-change: transform, box-shadow;
+            transform: translateZ(0);
+        }
+
+        .card:hover {
+            transform: translateY(-2px) translateZ(0);
+            box-shadow: var(--modern-shadow-lg);
+        }
+
+        /* Preload optimization */
+        .preload * {
+            transition: none !important;
+            animation: none !important;
+        }
+
+        /* Intersection Observer optimizations */
+        .lazy-load {
+            opacity: 0;
+            transform: translateY(20px) translateZ(0);
+            transition: var(--transition-normal);
+        }
+
+        .lazy-load.loaded {
+            opacity: 1;
+            transform: translateY(0) translateZ(0);
+        }
+
+        /* Add ripple animation keyframe */
+        @keyframes ripple {
+            to {
+                transform: scale(4) translateZ(0);
+                opacity: 0;
+            }
+        }
+
+        /* Enhanced accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --cream-primary: #000000;
+                --red-primary: #ff0000;
+                --modern-shadow: 0 0 0 1px #000000;
+            }
+        }
+
+        /* Performance optimizations for Safari */
+        @supports (-webkit-appearance: none) {
+            .card,
+            .btn,
+            .nav-link {
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
         }
     </style>
 </head>
@@ -696,11 +893,11 @@
                 @yield('content')
             </div>
             
-            <!-- Loading Content Overlay -->
-            <div id="content-loading" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(245, 241, 235, 0.8); z-index: 999; backdrop-filter: blur(3px);">
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: var(--red-primary);">
-                    <div class="loading-spinner" style="width: 40px; height: 40px; margin: 0 auto 1rem;"></div>
-                    <div>Memuat konten...</div>
+            <!-- Loading Content Overlay - Optimized -->
+            <div id="content-loading">
+                <div class="text-center" style="color: var(--red-primary);">
+                    <div class="spinner-border mb-2" role="status" aria-hidden="true"></div>
+                    <div style="font-size: 0.9rem; font-weight: 500;">Memuat halaman...</div>
                 </div>
             </div>
         </main>
@@ -742,9 +939,17 @@
     
     <!-- Custom Modern JavaScript -->
     <script>
+        // Performance optimizations
+        let isLoading = false;
+        let contentCache = new Map();
+        let requestController = null;
+
         // Modern Admin Dashboard Functions
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize OverlayScrollbars
+            // Disable transitions during page load for better performance
+            document.body.classList.add('preload');
+            
+            // Initialize OverlayScrollbars with optimized settings
             const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
             const Default = {
                 scrollbarTheme: 'os-theme-light',
@@ -763,299 +968,682 @@
                 });
             }
 
-            // Loading overlay functions
+            // Optimized loading overlay functions
             function showLoading() {
-                document.getElementById('loadingOverlay').style.display = 'flex';
+                if (isLoading) return;
+                isLoading = true;
+                const overlay = document.getElementById('loadingOverlay');
+                if (overlay) {
+                    overlay.style.display = 'flex';
+                    requestAnimationFrame(() => {
+                        overlay.style.opacity = '1';
+                    });
+                }
             }
 
             function hideLoading() {
-                document.getElementById('loadingOverlay').style.display = 'none';
+                isLoading = false;
+                const overlay = document.getElementById('loadingOverlay');
+                if (overlay) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                    }, 150);
+                }
             }
 
-            // Auto-hide loading after page load
+            // Auto-hide loading after page load with optimized timing
             window.addEventListener('load', function() {
-                setTimeout(hideLoading, 500);
+                setTimeout(() => {
+                    hideLoading();
+                    // Re-enable transitions after initial load
+                    document.body.classList.remove('preload');
+                }, 200);
             });
 
-            // Add loading to all navigation links
-            document.querySelectorAll('.nav-link[href]:not([href="#"])').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    showLoading();
-                });
-            });
-
-            // AJAX Navigation for Sidebar Links
-            document.querySelectorAll('.sidebar-menu .nav-link[href]:not([href="#"])').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const url = this.getAttribute('href');
-                    const currentActive = document.querySelector('.sidebar-menu .nav-link.active');
-                    
-                    // Prevent multiple rapid clicks
-                    if (this.classList.contains('loading')) {
-                        return;
-                    }
-                    
-                    // Add loading state to the clicked link
-                    this.classList.add('loading');
-                    const originalHTML = this.innerHTML;
-                    this.innerHTML = originalHTML.replace(/(<i[^>]*><\/i>)/, '$1<i class="bi bi-arrow-clockwise spinning ms-1"></i>');
-                    
-                    // Remove active class from current link
-                    if (currentActive) {
-                        currentActive.classList.remove('active');
-                    }
-                    
-                    // Add active class to clicked link
-                    this.classList.add('active');
-                    
-                    // Show content loading
-                    showContentLoading();
-                    
-                    // Load content via AJAX
-                    loadContent(url)
-                        .then(() => {
-                            // Update browser URL without refresh
-                            history.pushState({url: url}, '', url);
-                        })
-                        .finally(() => {
-                            // Remove loading state
-                            this.classList.remove('loading');
-                            this.innerHTML = originalHTML;
-                        });
-                });
-            });
-
-            // Handle browser back/forward buttons
-            window.addEventListener('popstate', function(e) {
-                if (e.state && e.state.url) {
-                    showContentLoading();
-                    loadContent(e.state.url);
-                    updateActiveMenu(e.state.url);
-                }
-            });
-
-            // Content loading functions
+            // Optimized content loading functions
             function showContentLoading() {
-                document.getElementById('content-loading').style.display = 'block';
+                const contentLoading = document.getElementById('content-loading');
+                const mainContent = document.getElementById('main-content');
+                
+                if (contentLoading && mainContent) {
+                    contentLoading.style.display = 'flex';
+                    mainContent.classList.add('content-loading');
+                }
             }
 
             function hideContentLoading() {
-                document.getElementById('content-loading').style.display = 'none';
+                const contentLoading = document.getElementById('content-loading');
+                const mainContent = document.getElementById('main-content');
+                
+                if (contentLoading && mainContent) {
+                    contentLoading.style.display = 'none';
+                    mainContent.classList.remove('content-loading');
+                    mainContent.classList.add('content-loaded');
+                    
+                    setTimeout(() => {
+                        mainContent.classList.remove('content-loaded');
+                    }, 300);
+                }
             }
 
-            function loadContent(url) {
-                fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'text/html',
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    // Extract content from the response
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(data, 'text/html');
-                    
-                    // Try different selectors to find the main content
-                    let newContent = doc.querySelector('#main-content, .app-main .container-fluid, .content-wrapper, .content, main .container-fluid, .main-content');
-                    
-                    if (!newContent) {
-                        // If no main content found, try to extract from @yield('content') area
-                        const bodyContent = doc.body;
-                        if (bodyContent) {
-                            // Look for content between typical Laravel blade sections
-                            const contentElements = bodyContent.querySelectorAll('.container-fluid, .container, .row, .col, .card, .content, .main');
-                            if (contentElements.length > 0) {
-                                newContent = contentElements[0];
-                            } else {
-                                // Last resort: create a wrapper with the body content
-                                const wrapper = document.createElement('div');
-                                wrapper.innerHTML = bodyContent.innerHTML;
-                                newContent = wrapper;
-                            }
+            // Debounced navigation to prevent rapid clicks
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            // Optimized AJAX Navigation for Sidebar Links
+            const navigateToPage = debounce(function(url, linkElement) {
+                if (isLoading || linkElement.classList.contains('loading')) {
+                    return;
+                }
+
+                // Cancel previous request if exists
+                if (requestController) {
+                    requestController.abort();
+                }
+
+                const currentActive = document.querySelector('.sidebar-menu .nav-link.active');
+                
+                // Add loading state to the clicked link
+                linkElement.classList.add('loading');
+                const originalHTML = linkElement.innerHTML;
+                const iconMatch = originalHTML.match(/(<i[^>]*><\/i>)/);
+                if (iconMatch) {
+                    linkElement.innerHTML = originalHTML.replace(iconMatch[1], iconMatch[1] + '<i class="bi bi-arrow-clockwise spinning ms-1"></i>');
+                }
+                
+                // Remove active class from current link
+                if (currentActive && currentActive !== linkElement) {
+                    currentActive.classList.remove('active');
+                }
+                
+                // Add active class to clicked link
+                linkElement.classList.add('active');
+                
+                // Show content loading with optimized timing
+                requestAnimationFrame(() => {
+                    showContentLoading();
+                });
+                
+                // Load content via optimized AJAX
+                loadContentOptimized(url)
+                    .then(() => {
+                        // Update browser URL without refresh
+                        if (history.pushState) {
+                            history.pushState({url: url, timestamp: Date.now()}, '', url);
                         }
-                    }
-                    
-                    if (newContent) {
-                        // Clear and update main content
-                        const mainContentEl = document.getElementById('main-content');
-                        mainContentEl.innerHTML = '';
-                        
-                        // Copy the content
-                        if (newContent.id === 'main-content') {
-                            mainContentEl.innerHTML = newContent.innerHTML;
-                        } else {
-                            mainContentEl.appendChild(newContent.cloneNode(true));
+                        // Cache successful navigation
+                        contentCache.set(url, Date.now());
+                    })
+                    .catch(error => {
+                        console.warn('Navigation failed, falling back to normal navigation:', error);
+                        // Restore previous active state
+                        if (currentActive) {
+                            currentActive.classList.add('active');
+                            linkElement.classList.remove('active');
                         }
-                    } else {
-                        throw new Error('Content not found in response');
-                    }
-                    
-                    hideContentLoading();
-                    
-                    // Re-initialize any JavaScript components in the new content
-                    initializeNewContent();
-                    
-                    // Show success notification
-                    BachCoffeeAdmin.showNotification('Halaman berhasil dimuat', 'success');
-                })
-                .catch(error => {
-                    console.error('Error loading content:', error);
-                    hideContentLoading();
-                    
-                    // Show error notification
-                    BachCoffeeAdmin.showNotification('Gagal memuat halaman. Mengalihkan...', 'warning');
-                    
-                    // Fallback to normal navigation after a short delay
-                    setTimeout(() => {
+                        // Fallback to normal navigation
                         window.location.href = url;
-                    }, 1000);
+                    })
+                    .finally(() => {
+                        // Remove loading state
+                        linkElement.classList.remove('loading');
+                        linkElement.innerHTML = originalHTML;
+                        requestController = null;
+                    });
+            }, 150);
+
+            // Attach optimized event listeners to sidebar links
+            document.querySelectorAll('.sidebar-menu .nav-link[href]:not([href="#"])').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const url = this.getAttribute('href');
+                    navigateToPage(url, this);
+                });
+            });
+
+            // Optimized browser back/forward navigation
+            window.addEventListener('popstate', function(e) {
+                if (e.state && e.state.url && !isLoading) {
+                    const url = e.state.url;
+                    showContentLoading();
+                    loadContentOptimized(url)
+                        .then(() => {
+                            updateActiveMenu(url);
+                        })
+                        .catch(() => {
+                            window.location.href = url;
+                        });
+                }
+            });
+
+            // Optimized content loading with better error handling and caching
+            function loadContentOptimized(url) {
+                return new Promise((resolve, reject) => {
+                    // Create new AbortController for this request
+                    requestController = new AbortController();
+                    
+                    const fetchOptions = {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'text/html',
+                            'Cache-Control': 'no-cache'
+                        },
+                        signal: requestController.signal
+                    };
+
+                    fetch(url, fetchOptions)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                            }
+                            return response.text();
+                        })
+                        .then(data => {
+                            if (requestController.signal.aborted) {
+                                return;
+                            }
+
+                            // Extract content from the response with optimized parsing
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(data, 'text/html');
+                            
+                            // Try different selectors to find the main content
+                            let newContent = doc.querySelector('#main-content, .app-main, .content-wrapper, .content, main, .main-content');
+                            
+                            if (!newContent) {
+                                newContent = doc.querySelector('.app-content, .container-fluid, .container');
+                                
+                                if (!newContent) {
+                                    const bodyContent = doc.body;
+                                    if (bodyContent) {
+                                        const contentElements = bodyContent.querySelectorAll('.app-content, .container-fluid, .container, .row, .col, .card');
+                                        if (contentElements.length > 0) {
+                                            newContent = contentElements[0];
+                                        } else {
+                                            // Clean extraction with optimized cleaning
+                                            const wrapper = document.createElement('div');
+                                            wrapper.className = 'extracted-content';
+                                            let bodyHTML = bodyContent.innerHTML;
+                                            
+                                            // Remove problematic elements more efficiently
+                                            bodyHTML = bodyHTML
+                                                .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                                                .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+                                                .replace(/<link\b[^>]*>/gi, '')
+                                                .replace(/<meta\b[^>]*>/gi, '');
+                                            
+                                            wrapper.innerHTML = bodyHTML;
+                                            newContent = wrapper;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            if (newContent) {
+                                // Update main content with optimized DOM manipulation
+                                const mainContentEl = document.getElementById('main-content');
+                                if (mainContentEl) {
+                                    // Use DocumentFragment for better performance
+                                    const fragment = document.createDocumentFragment();
+                                    
+                                    try {
+                                        if (newContent.id === 'main-content') {
+                                            mainContentEl.innerHTML = newContent.innerHTML;
+                                        } else {
+                                            const clonedContent = newContent.cloneNode(true);
+                                            // Clear main content efficiently
+                                            while (mainContentEl.firstChild) {
+                                                mainContentEl.removeChild(mainContentEl.firstChild);
+                                            }
+                                            mainContentEl.appendChild(clonedContent);
+                                        }
+                                    } catch (error) {
+                                        console.warn('Error cloning content, using innerHTML instead:', error);
+                                        mainContentEl.innerHTML = newContent.innerHTML || newContent.outerHTML;
+                                    }
+                                } else {
+                                    throw new Error('Main content element not found');
+                                }
+                            } else {
+                                throw new Error('Content not found in response');
+                            }
+                            
+                            hideContentLoading();
+                            
+                            // Re-initialize components with optimized timing
+                            requestAnimationFrame(() => {
+                                initializeNewContentOptimized();
+                            });
+                            
+                            resolve();
+                        })
+                        .catch(error => {
+                            if (error.name === 'AbortError') {
+                                return; // Request was cancelled, ignore
+                            }
+                            console.error('Error loading content:', error);
+                            hideContentLoading();
+                            reject(error);
+                        });
                 });
             }
 
             function updateActiveMenu(url) {
-                // Remove active class from all menu items
-                document.querySelectorAll('.sidebar-menu .nav-link').forEach(link => {
-                    link.classList.remove('active');
-                });
-                
-                // Add active class to matching menu item
-                document.querySelectorAll('.sidebar-menu .nav-link[href]').forEach(link => {
-                    if (link.getAttribute('href') === url) {
-                        link.classList.add('active');
+                // Batch DOM updates for better performance
+                requestAnimationFrame(() => {
+                    // Remove active class from all menu items
+                    document.querySelectorAll('.sidebar-menu .nav-link.active').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    // Add active class to matching menu item
+                    const targetLink = document.querySelector(`.sidebar-menu .nav-link[href="${url}"]`);
+                    if (targetLink) {
+                        targetLink.classList.add('active');
                     }
                 });
             }
 
+            // Optimized content initialization with lazy loading
+            function initializeNewContentOptimized() {
+                const mainContent = document.getElementById('main-content');
+                if (!mainContent) return;
+
+                // Add smooth animation with hardware acceleration
+                mainContent.classList.add('page-transition');
+                
+                setTimeout(() => {
+                    mainContent.classList.remove('page-transition');
+                }, 300);
+
+                // Dispose of existing components efficiently
+                disposeExistingComponents();
+
+                // Re-initialize components with optimized timing
+                setTimeout(() => {
+                    initializeBootstrapComponents();
+                    initializeEventListeners();
+                    initializeLazyLoading();
+                }, 50);
+
+                // Scroll to top with smooth behavior
+                if ('scrollBehavior' in document.documentElement.style) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    window.scrollTo(0, 0);
+                }
+            }
+
+            function disposeExistingComponents() {
+                // Dispose tooltips
+                try {
+                    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(element => {
+                        const tooltip = bootstrap.Tooltip.getInstance(element);
+                        if (tooltip) tooltip.dispose();
+                    });
+                } catch (error) {
+                    console.warn('Error disposing tooltips:', error);
+                }
+
+                // Dispose popovers
+                try {
+                    document.querySelectorAll('[data-bs-toggle="popover"]').forEach(element => {
+                        const popover = bootstrap.Popover.getInstance(element);
+                        if (popover) popover.dispose();
+                    });
+                } catch (error) {
+                    console.warn('Error disposing popovers:', error);
+                }
+            }
+
+            function initializeBootstrapComponents() {
+                // Initialize tooltips
+                try {
+                    const tooltipTriggerList = document.querySelectorAll('#main-content [data-bs-toggle="tooltip"], #main-content [title]');
+                    tooltipTriggerList.forEach(tooltipTriggerEl => {
+                        if (!bootstrap.Tooltip.getInstance(tooltipTriggerEl)) {
+                            new bootstrap.Tooltip(tooltipTriggerEl);
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error initializing tooltips:', error);
+                }
+
+                // Initialize popovers
+                try {
+                    const popoverTriggerList = document.querySelectorAll('#main-content [data-bs-toggle="popover"]');
+                    popoverTriggerList.forEach(popoverTriggerEl => {
+                        if (!bootstrap.Popover.getInstance(popoverTriggerEl)) {
+                            new bootstrap.Popover(popoverTriggerEl);
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error initializing popovers:', error);
+                }
+
+                // Initialize modals
+                try {
+                    const modalList = document.querySelectorAll('#main-content .modal');
+                    modalList.forEach(modalEl => {
+                        if (!bootstrap.Modal.getInstance(modalEl)) {
+                            new bootstrap.Modal(modalEl);
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error initializing modals:', error);
+                }
+            }
+
+            function initializeEventListeners() {
+                // Re-apply optimized hover effects to new cards
+                try {
+                    document.querySelectorAll('#main-content .card').forEach(card => {
+                        if (!card.hasAttribute('data-hover-initialized')) {
+                            card.setAttribute('data-hover-initialized', 'true');
+                            card.addEventListener('mouseenter', function() {
+                                this.style.transform = 'translateY(-2px) translateZ(0)';
+                                this.style.boxShadow = 'var(--modern-shadow-lg)';
+                            });
+
+                            card.addEventListener('mouseleave', function() {
+                                this.style.transform = 'translateY(0) translateZ(0)';
+                                this.style.boxShadow = 'var(--modern-shadow)';
+                            });
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error applying card hover effects:', error);
+                }
+
+                // Re-apply optimized ripple effect to new buttons
+                try {
+                    document.querySelectorAll('#main-content .btn').forEach(button => {
+                        if (!button.hasAttribute('data-ripple-enabled')) {
+                            button.setAttribute('data-ripple-enabled', 'true');
+                            button.addEventListener('click', function(e) {
+                                createRippleEffect(e, this);
+                            });
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error applying button ripple effects:', error);
+                }
+            }
+
+            function createRippleEffect(e, element) {
+                const ripple = document.createElement('span');
+                const rect = element.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    transform: scale(0) translateZ(0);
+                    animation: ripple 0.4s ease-out;
+                    pointer-events: none;
+                `;
+                
+                element.style.position = 'relative';
+                element.style.overflow = 'hidden';
+                element.appendChild(ripple);
+                
+                setTimeout(() => {
+                    if (ripple.parentNode) {
+                        ripple.remove();
+                    }
+                }, 400);
+            }
+
+            function initializeLazyLoading() {
+                // Intersection Observer for lazy loading
+                if ('IntersectionObserver' in window) {
+                    const lazyElements = document.querySelectorAll('#main-content .lazy-load');
+                    const lazyObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('loaded');
+                                lazyObserver.unobserve(entry.target);
+                            }
+                        });
+                    }, {
+                        rootMargin: '50px'
+                    });
+
+                    lazyElements.forEach(el => {
+                        lazyObserver.observe(el);
+                    });
+                }
+            }
+
+            // Initialize page with optimized settings
+            const currentPath = window.location.pathname;
+            document.querySelectorAll('.sidebar-menu .nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Add CSS for optimized ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4) translateZ(0);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+
             function initializeNewContent() {
                 // Add smooth animation to new content
                 const mainContent = document.getElementById('main-content');
-                mainContent.classList.add('page-transition');
-                
-                // Remove animation class after animation completes
-                setTimeout(() => {
-                    mainContent.classList.remove('page-transition');
-                }, 400);
+                if (mainContent) {
+                    mainContent.classList.add('page-transition');
+                    
+                    // Remove animation class after animation completes
+                    setTimeout(() => {
+                        mainContent.classList.remove('page-transition');
+                    }, 400);
+                }
+
+                // Dispose of existing tooltips first to prevent memory leaks
+                try {
+                    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(element => {
+                        const tooltip = bootstrap.Tooltip.getInstance(element);
+                        if (tooltip) {
+                            tooltip.dispose();
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error disposing tooltips:', error);
+                }
 
                 // Re-initialize tooltips for new content
-                const newTooltips = [].slice.call(document.querySelectorAll('#main-content [data-bs-toggle="tooltip"], #main-content [title]'));
-                newTooltips.forEach(function (tooltipTriggerEl) {
-                    new bootstrap.Tooltip(tooltipTriggerEl);
-                });
+                try {
+                    const newTooltips = [].slice.call(document.querySelectorAll('#main-content [data-bs-toggle="tooltip"], #main-content [title]'));
+                    newTooltips.forEach(function (tooltipTriggerEl) {
+                        if (!bootstrap.Tooltip.getInstance(tooltipTriggerEl)) {
+                            new bootstrap.Tooltip(tooltipTriggerEl);
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error initializing tooltips:', error);
+                }
+
+                // Dispose of existing popovers
+                try {
+                    document.querySelectorAll('[data-bs-toggle="popover"]').forEach(element => {
+                        const popover = bootstrap.Popover.getInstance(element);
+                        if (popover) {
+                            popover.dispose();
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error disposing popovers:', error);
+                }
 
                 // Re-initialize popovers for new content
-                const newPopovers = [].slice.call(document.querySelectorAll('#main-content [data-bs-toggle="popover"]'));
-                newPopovers.forEach(function (popoverTriggerEl) {
-                    new bootstrap.Popover(popoverTriggerEl);
-                });
+                try {
+                    const newPopovers = [].slice.call(document.querySelectorAll('#main-content [data-bs-toggle="popover"]'));
+                    newPopovers.forEach(function (popoverTriggerEl) {
+                        if (!bootstrap.Popover.getInstance(popoverTriggerEl)) {
+                            new bootstrap.Popover(popoverTriggerEl);
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error initializing popovers:', error);
+                }
 
                 // Re-initialize modals for new content
-                const newModals = [].slice.call(document.querySelectorAll('#main-content .modal'));
-                newModals.forEach(function (modalEl) {
-                    new bootstrap.Modal(modalEl);
-                });
+                try {
+                    const newModals = [].slice.call(document.querySelectorAll('#main-content .modal'));
+                    newModals.forEach(function (modalEl) {
+                        if (!bootstrap.Modal.getInstance(modalEl)) {
+                            new bootstrap.Modal(modalEl);
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error initializing modals:', error);
+                }
 
                 // Re-apply hover effects to new cards
-                document.querySelectorAll('#main-content .card').forEach(card => {
-                    card.addEventListener('mouseenter', function() {
-                        this.style.transform = 'translateY(-5px)';
-                        this.style.boxShadow = 'var(--modern-shadow-lg)';
-                    });
+                try {
+                    document.querySelectorAll('#main-content .card').forEach(card => {
+                        // Remove existing event listeners by cloning
+                        const newCard = card.cloneNode(true);
+                        card.parentNode.replaceChild(newCard, card);
+                        
+                        newCard.addEventListener('mouseenter', function() {
+                            this.style.transform = 'translateY(-5px)';
+                            this.style.boxShadow = 'var(--modern-shadow-lg)';
+                        });
 
-                    card.addEventListener('mouseleave', function() {
-                        this.style.transform = 'translateY(0)';
-                        this.style.boxShadow = 'var(--modern-shadow)';
+                        newCard.addEventListener('mouseleave', function() {
+                            this.style.transform = 'translateY(0)';
+                            this.style.boxShadow = 'var(--modern-shadow)';
+                        });
                     });
-                });
+                } catch (error) {
+                    console.warn('Error applying card hover effects:', error);
+                }
 
                 // Re-apply ripple effect to new buttons
-                document.querySelectorAll('#main-content .btn').forEach(button => {
-                    if (!button.hasAttribute('data-ripple-enabled')) {
-                        button.setAttribute('data-ripple-enabled', 'true');
-                        button.addEventListener('click', function(e) {
-                            const ripple = document.createElement('span');
-                            const rect = this.getBoundingClientRect();
-                            const size = Math.max(rect.width, rect.height);
-                            const x = e.clientX - rect.left - size / 2;
-                            const y = e.clientY - rect.top - size / 2;
-                            
-                            ripple.style.cssText = `
-                                position: absolute;
-                                width: ${size}px;
-                                height: ${size}px;
-                                left: ${x}px;
-                                top: ${y}px;
-                                background: rgba(255, 255, 255, 0.3);
-                                border-radius: 50%;
-                                transform: scale(0);
-                                animation: ripple 0.6s ease-out;
-                                pointer-events: none;
-                            `;
-                            
-                            this.style.position = 'relative';
-                            this.style.overflow = 'hidden';
-                            this.appendChild(ripple);
-                            
-                            setTimeout(() => {
-                                ripple.remove();
-                            }, 600);
-                        });
-                    }
-                });
+                try {
+                    document.querySelectorAll('#main-content .btn').forEach(button => {
+                        if (!button.hasAttribute('data-ripple-enabled')) {
+                            button.setAttribute('data-ripple-enabled', 'true');
+                            button.addEventListener('click', function(e) {
+                                const ripple = document.createElement('span');
+                                const rect = this.getBoundingClientRect();
+                                const size = Math.max(rect.width, rect.height);
+                                const x = e.clientX - rect.left - size / 2;
+                                const y = e.clientY - rect.top - size / 2;
+                                
+                                ripple.style.cssText = `
+                                    position: absolute;
+                                    width: ${size}px;
+                                    height: ${size}px;
+                                    left: ${x}px;
+                                    top: ${y}px;
+                                    background: rgba(255, 255, 255, 0.3);
+                                    border-radius: 50%;
+                                    transform: scale(0);
+                                    animation: ripple 0.6s ease-out;
+                                    pointer-events: none;
+                                `;
+                                
+                                this.style.position = 'relative';
+                                this.style.overflow = 'hidden';
+                                this.appendChild(ripple);
+                                
+                                setTimeout(() => {
+                                    if (ripple.parentNode) {
+                                        ripple.remove();
+                                    }
+                                }, 600);
+                            });
+                        }
+                    });
+                } catch (error) {
+                    console.warn('Error applying button ripple effects:', error);
+                }
 
                 // Re-enable AJAX forms if any
-                document.querySelectorAll('#main-content form[data-ajax="true"]').forEach(form => {
-                    form.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        
-                        const formData = new FormData(this);
-                        const url = this.action;
-                        const method = this.method;
-                        
-                        BachCoffeeAdmin.showContentLoading();
-                        
-                        fetch(url, {
-                            method: method,
-                            body: formData,
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest',
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            BachCoffeeAdmin.hideContentLoading();
-                            
-                            if (data.success) {
-                                BachCoffeeAdmin.showNotification(data.message || 'Operasi berhasil', 'success');
+                try {
+                    document.querySelectorAll('#main-content form[data-ajax="true"]').forEach(form => {
+                        if (!form.hasAttribute('data-ajax-enabled')) {
+                            form.setAttribute('data-ajax-enabled', 'true');
+                            form.addEventListener('submit', function(e) {
+                                e.preventDefault();
                                 
-                                if (data.redirect) {
-                                    BachCoffeeAdmin.loadContent(data.redirect)
-                                        .then(() => {
-                                            history.pushState({url: data.redirect}, '', data.redirect);
-                                        });
-                                }
-                            } else {
-                                BachCoffeeAdmin.showNotification(data.message || 'Terjadi kesalahan', 'danger');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            BachCoffeeAdmin.hideContentLoading();
-                            BachCoffeeAdmin.showNotification('Terjadi kesalahan sistem', 'danger');
-                        });
+                                const formData = new FormData(this);
+                                const url = this.action;
+                                const method = this.method;
+                                
+                                BachCoffeeAdmin.showContentLoading();
+                                
+                                fetch(url, {
+                                    method: method,
+                                    body: formData,
+                                    headers: {
+                                        'X-Requested-With': 'XMLHttpRequest',
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    BachCoffeeAdmin.hideContentLoading();
+                                    
+                                    if (data.success) {
+                                        BachCoffeeAdmin.showNotification(data.message || 'Operasi berhasil', 'success');
+                                        
+                                        if (data.redirect) {
+                                            BachCoffeeAdmin.loadContent(data.redirect)
+                                                .then(() => {
+                                                    history.pushState({url: data.redirect}, '', data.redirect);
+                                                });
+                                        }
+                                    } else {
+                                        BachCoffeeAdmin.showNotification(data.message || 'Terjadi kesalahan', 'danger');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    BachCoffeeAdmin.hideContentLoading();
+                                    BachCoffeeAdmin.showNotification('Terjadi kesalahan sistem', 'danger');
+                                });
+                            });
+                        }
                     });
-                });
+                } catch (error) {
+                    console.warn('Error enabling AJAX forms:', error);
+                }
 
                 // Scroll to top after content load
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                try {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } catch (error) {
+                    window.scrollTo(0, 0);
+                }
             }
 
             // Modern tooltip initialization
@@ -1271,18 +1859,54 @@
                 .then(data => {
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(data, 'text/html');
-                    const newContent = doc.querySelector('main .app-main, main, .content-wrapper, .content, #content, .main-content');
                     
-                    if (newContent) {
-                        document.getElementById('main-content').innerHTML = newContent.innerHTML;
-                    } else {
-                        const fallbackContent = doc.querySelector('body').innerHTML;
-                        const contentMatch = fallbackContent.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
-                        if (contentMatch) {
-                            document.getElementById('main-content').innerHTML = contentMatch[1];
-                        } else {
-                            document.getElementById('main-content').innerHTML = doc.querySelector('body').innerHTML;
+                    // Try to find main content with same logic as local function
+                    let newContent = doc.querySelector('#main-content, .app-main, .content-wrapper, .content, main, .main-content');
+                    
+                    if (!newContent) {
+                        newContent = doc.querySelector('.app-content, .container-fluid, .container');
+                        
+                        if (!newContent) {
+                            const bodyContent = doc.body;
+                            if (bodyContent) {
+                                const contentElements = bodyContent.querySelectorAll('.app-content, .container-fluid, .container, .row, .col, .card');
+                                if (contentElements.length > 0) {
+                                    newContent = contentElements[0];
+                                } else {
+                                    // Clean extraction
+                                    const wrapper = document.createElement('div');
+                                    wrapper.className = 'extracted-content';
+                                    const bodyHTML = bodyContent.innerHTML;
+                                    
+                                    const cleanHTML = bodyHTML
+                                        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                                        .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+                                        .replace(/<link\b[^>]*>/gi, '');
+                                    
+                                    wrapper.innerHTML = cleanHTML;
+                                    newContent = wrapper;
+                                }
+                            }
                         }
+                    }
+                    
+                    const mainContentEl = document.getElementById('main-content');
+                    if (newContent && mainContentEl) {
+                        mainContentEl.innerHTML = '';
+                        
+                        try {
+                            if (newContent.id === 'main-content') {
+                                mainContentEl.innerHTML = newContent.innerHTML;
+                            } else {
+                                const clonedContent = newContent.cloneNode(true);
+                                mainContentEl.appendChild(clonedContent);
+                            }
+                        } catch (error) {
+                            console.warn('Error cloning content, using innerHTML instead:', error);
+                            mainContentEl.innerHTML = newContent.innerHTML || newContent.outerHTML;
+                        }
+                    } else {
+                        throw new Error('Content or main element not found');
                     }
                     
                     // Re-initialize components
@@ -1291,6 +1915,10 @@
                     }
                     
                     return data;
+                })
+                .catch(error => {
+                    console.error('Load content error:', error);
+                    throw error;
                 });
             },
             showNotification: function(message, type = 'info') {
