@@ -534,7 +534,7 @@
                 <div class="row mt-5 pt-5" data-aos="fade-up" data-aos-delay="600">
                     <div class="col-md-4 mb-3">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <div class="bg-white bg-opacity-20 rounded-circle p-3 mb-2 backdrop-blur">
+                            <div class="bg-opacity-20 rounded-circle p-3 mb-2 backdrop-blur">
                                 <i class="bi bi-award fs-2"></i>
                             </div>
                             <h6 class="fw-bold">Kualitas Premium</h6>
@@ -543,7 +543,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <div class="bg-white bg-opacity-20 rounded-circle p-3 mb-2 backdrop-blur">
+                            <div class="bg-opacity-20 rounded-circle p-3 mb-2 backdrop-blur">
                                 <i class="bi bi-heart fs-2"></i>
                             </div>
                             <h6 class="fw-bold">Pelayanan Ramah</h6>
@@ -552,7 +552,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <div class="bg-white bg-opacity-20 rounded-circle p-3 mb-2 backdrop-blur">
+                            <div class="bg-opacity-20 rounded-circle p-3 mb-2 backdrop-blur">
                                 <i class="bi bi-house-heart fs-2"></i>
                             </div>
                             <h6 class="fw-bold">Suasana Nyaman</h6>

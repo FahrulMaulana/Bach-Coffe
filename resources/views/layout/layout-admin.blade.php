@@ -162,6 +162,15 @@
             box-shadow: var(--modern-shadow);
         }
 
+        .sidebar-menu .nav-link.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .spinning {
+            animation: spin 1s linear infinite;
+        }
+
         /* Modern Main Content */
         .app-main {
             background: var(--cream-light) !important;
@@ -264,6 +273,64 @@
         /* Smooth Animations */
         * {
             transition: all 0.3s ease;
+        }
+
+        /* Content Loading Animation */
+        #main-content {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .content-loading {
+            opacity: 0.7;
+            transform: translateY(10px);
+        }
+
+        .content-loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Smooth page transitions */
+        .page-transition {
+            animation: slideInFromRight 0.4s ease-out;
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced loading animation */
+        .loading-content {
+            animation: fadeIn 0.3s ease-in;
         }
 
         /* Custom Scrollbar */
@@ -625,7 +692,17 @@
         
         <!--begin::Main Content-->
         <main class="app-main">
-            @yield('content')
+            <div id="main-content">
+                @yield('content')
+            </div>
+            
+            <!-- Loading Content Overlay -->
+            <div id="content-loading" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(245, 241, 235, 0.8); z-index: 999; backdrop-filter: blur(3px);">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: var(--red-primary);">
+                    <div class="loading-spinner" style="width: 40px; height: 40px; margin: 0 auto 1rem;"></div>
+                    <div>Memuat konten...</div>
+                </div>
+            </div>
         </main>
         <!--end::Main Content-->
         
@@ -706,6 +783,280 @@
                     showLoading();
                 });
             });
+
+            // AJAX Navigation for Sidebar Links
+            document.querySelectorAll('.sidebar-menu .nav-link[href]:not([href="#"])').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const url = this.getAttribute('href');
+                    const currentActive = document.querySelector('.sidebar-menu .nav-link.active');
+                    
+                    // Prevent multiple rapid clicks
+                    if (this.classList.contains('loading')) {
+                        return;
+                    }
+                    
+                    // Add loading state to the clicked link
+                    this.classList.add('loading');
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = originalHTML.replace(/(<i[^>]*><\/i>)/, '$1<i class="bi bi-arrow-clockwise spinning ms-1"></i>');
+                    
+                    // Remove active class from current link
+                    if (currentActive) {
+                        currentActive.classList.remove('active');
+                    }
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show content loading
+                    showContentLoading();
+                    
+                    // Load content via AJAX
+                    loadContent(url)
+                        .then(() => {
+                            // Update browser URL without refresh
+                            history.pushState({url: url}, '', url);
+                        })
+                        .finally(() => {
+                            // Remove loading state
+                            this.classList.remove('loading');
+                            this.innerHTML = originalHTML;
+                        });
+                });
+            });
+
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', function(e) {
+                if (e.state && e.state.url) {
+                    showContentLoading();
+                    loadContent(e.state.url);
+                    updateActiveMenu(e.state.url);
+                }
+            });
+
+            // Content loading functions
+            function showContentLoading() {
+                document.getElementById('content-loading').style.display = 'block';
+            }
+
+            function hideContentLoading() {
+                document.getElementById('content-loading').style.display = 'none';
+            }
+
+            function loadContent(url) {
+                fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'text/html',
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    // Extract content from the response
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    
+                    // Try different selectors to find the main content
+                    let newContent = doc.querySelector('#main-content, .app-main .container-fluid, .content-wrapper, .content, main .container-fluid, .main-content');
+                    
+                    if (!newContent) {
+                        // If no main content found, try to extract from @yield('content') area
+                        const bodyContent = doc.body;
+                        if (bodyContent) {
+                            // Look for content between typical Laravel blade sections
+                            const contentElements = bodyContent.querySelectorAll('.container-fluid, .container, .row, .col, .card, .content, .main');
+                            if (contentElements.length > 0) {
+                                newContent = contentElements[0];
+                            } else {
+                                // Last resort: create a wrapper with the body content
+                                const wrapper = document.createElement('div');
+                                wrapper.innerHTML = bodyContent.innerHTML;
+                                newContent = wrapper;
+                            }
+                        }
+                    }
+                    
+                    if (newContent) {
+                        // Clear and update main content
+                        const mainContentEl = document.getElementById('main-content');
+                        mainContentEl.innerHTML = '';
+                        
+                        // Copy the content
+                        if (newContent.id === 'main-content') {
+                            mainContentEl.innerHTML = newContent.innerHTML;
+                        } else {
+                            mainContentEl.appendChild(newContent.cloneNode(true));
+                        }
+                    } else {
+                        throw new Error('Content not found in response');
+                    }
+                    
+                    hideContentLoading();
+                    
+                    // Re-initialize any JavaScript components in the new content
+                    initializeNewContent();
+                    
+                    // Show success notification
+                    BachCoffeeAdmin.showNotification('Halaman berhasil dimuat', 'success');
+                })
+                .catch(error => {
+                    console.error('Error loading content:', error);
+                    hideContentLoading();
+                    
+                    // Show error notification
+                    BachCoffeeAdmin.showNotification('Gagal memuat halaman. Mengalihkan...', 'warning');
+                    
+                    // Fallback to normal navigation after a short delay
+                    setTimeout(() => {
+                        window.location.href = url;
+                    }, 1000);
+                });
+            }
+
+            function updateActiveMenu(url) {
+                // Remove active class from all menu items
+                document.querySelectorAll('.sidebar-menu .nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Add active class to matching menu item
+                document.querySelectorAll('.sidebar-menu .nav-link[href]').forEach(link => {
+                    if (link.getAttribute('href') === url) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            function initializeNewContent() {
+                // Add smooth animation to new content
+                const mainContent = document.getElementById('main-content');
+                mainContent.classList.add('page-transition');
+                
+                // Remove animation class after animation completes
+                setTimeout(() => {
+                    mainContent.classList.remove('page-transition');
+                }, 400);
+
+                // Re-initialize tooltips for new content
+                const newTooltips = [].slice.call(document.querySelectorAll('#main-content [data-bs-toggle="tooltip"], #main-content [title]'));
+                newTooltips.forEach(function (tooltipTriggerEl) {
+                    new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+
+                // Re-initialize popovers for new content
+                const newPopovers = [].slice.call(document.querySelectorAll('#main-content [data-bs-toggle="popover"]'));
+                newPopovers.forEach(function (popoverTriggerEl) {
+                    new bootstrap.Popover(popoverTriggerEl);
+                });
+
+                // Re-initialize modals for new content
+                const newModals = [].slice.call(document.querySelectorAll('#main-content .modal'));
+                newModals.forEach(function (modalEl) {
+                    new bootstrap.Modal(modalEl);
+                });
+
+                // Re-apply hover effects to new cards
+                document.querySelectorAll('#main-content .card').forEach(card => {
+                    card.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-5px)';
+                        this.style.boxShadow = 'var(--modern-shadow-lg)';
+                    });
+
+                    card.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0)';
+                        this.style.boxShadow = 'var(--modern-shadow)';
+                    });
+                });
+
+                // Re-apply ripple effect to new buttons
+                document.querySelectorAll('#main-content .btn').forEach(button => {
+                    if (!button.hasAttribute('data-ripple-enabled')) {
+                        button.setAttribute('data-ripple-enabled', 'true');
+                        button.addEventListener('click', function(e) {
+                            const ripple = document.createElement('span');
+                            const rect = this.getBoundingClientRect();
+                            const size = Math.max(rect.width, rect.height);
+                            const x = e.clientX - rect.left - size / 2;
+                            const y = e.clientY - rect.top - size / 2;
+                            
+                            ripple.style.cssText = `
+                                position: absolute;
+                                width: ${size}px;
+                                height: ${size}px;
+                                left: ${x}px;
+                                top: ${y}px;
+                                background: rgba(255, 255, 255, 0.3);
+                                border-radius: 50%;
+                                transform: scale(0);
+                                animation: ripple 0.6s ease-out;
+                                pointer-events: none;
+                            `;
+                            
+                            this.style.position = 'relative';
+                            this.style.overflow = 'hidden';
+                            this.appendChild(ripple);
+                            
+                            setTimeout(() => {
+                                ripple.remove();
+                            }, 600);
+                        });
+                    }
+                });
+
+                // Re-enable AJAX forms if any
+                document.querySelectorAll('#main-content form[data-ajax="true"]').forEach(form => {
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        const formData = new FormData(this);
+                        const url = this.action;
+                        const method = this.method;
+                        
+                        BachCoffeeAdmin.showContentLoading();
+                        
+                        fetch(url, {
+                            method: method,
+                            body: formData,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            BachCoffeeAdmin.hideContentLoading();
+                            
+                            if (data.success) {
+                                BachCoffeeAdmin.showNotification(data.message || 'Operasi berhasil', 'success');
+                                
+                                if (data.redirect) {
+                                    BachCoffeeAdmin.loadContent(data.redirect)
+                                        .then(() => {
+                                            history.pushState({url: data.redirect}, '', data.redirect);
+                                        });
+                                }
+                            } else {
+                                BachCoffeeAdmin.showNotification(data.message || 'Terjadi kesalahan', 'danger');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            BachCoffeeAdmin.hideContentLoading();
+                            BachCoffeeAdmin.showNotification('Terjadi kesalahan sistem', 'danger');
+                        });
+                    });
+                });
+
+                // Scroll to top after content load
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
 
             // Modern tooltip initialization
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"], [title]'));
@@ -897,6 +1248,51 @@
             hideLoading: function() {
                 document.getElementById('loadingOverlay').style.display = 'none';
             },
+            showContentLoading: function() {
+                document.getElementById('content-loading').style.display = 'block';
+            },
+            hideContentLoading: function() {
+                document.getElementById('content-loading').style.display = 'none';
+            },
+            loadContent: function(url) {
+                return fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'text/html',
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const newContent = doc.querySelector('main .app-main, main, .content-wrapper, .content, #content, .main-content');
+                    
+                    if (newContent) {
+                        document.getElementById('main-content').innerHTML = newContent.innerHTML;
+                    } else {
+                        const fallbackContent = doc.querySelector('body').innerHTML;
+                        const contentMatch = fallbackContent.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
+                        if (contentMatch) {
+                            document.getElementById('main-content').innerHTML = contentMatch[1];
+                        } else {
+                            document.getElementById('main-content').innerHTML = doc.querySelector('body').innerHTML;
+                        }
+                    }
+                    
+                    // Re-initialize components
+                    if (typeof initializeNewContent === 'function') {
+                        initializeNewContent();
+                    }
+                    
+                    return data;
+                });
+            },
             showNotification: function(message, type = 'info') {
                 const notification = document.createElement('div');
                 notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
@@ -909,6 +1305,7 @@
                     box-shadow: var(--modern-shadow);
                 `;
                 notification.innerHTML = `
+                    <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-triangle' : 'info-circle'}-fill me-2"></i>
                     ${message}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 `;
@@ -919,6 +1316,40 @@
                         notification.remove();
                     }
                 }, 5000);
+            },
+            enableSmoothNavigation: function() {
+                // This function can be called to re-enable smooth navigation after dynamic content changes
+                document.querySelectorAll('.sidebar-menu .nav-link[href]:not([href="#"])').forEach(link => {
+                    if (!link.hasAttribute('data-ajax-enabled')) {
+                        link.setAttribute('data-ajax-enabled', 'true');
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            
+                            const url = this.getAttribute('href');
+                            const currentActive = document.querySelector('.sidebar-menu .nav-link.active');
+                            
+                            if (currentActive) {
+                                currentActive.classList.remove('active');
+                            }
+                            
+                            this.classList.add('active');
+                            BachCoffeeAdmin.showContentLoading();
+                            
+                            BachCoffeeAdmin.loadContent(url)
+                                .then(() => {
+                                    BachCoffeeAdmin.hideContentLoading();
+                                    history.pushState({url: url}, '', url);
+                                    BachCoffeeAdmin.showNotification('Halaman berhasil dimuat', 'success');
+                                })
+                                .catch(error => {
+                                    console.error('Error loading content:', error);
+                                    BachCoffeeAdmin.hideContentLoading();
+                                    BachCoffeeAdmin.showNotification('Gagal memuat halaman. Silakan coba lagi.', 'danger');
+                                    window.location.href = url;
+                                });
+                        });
+                    }
+                });
             }
         };
     </script>
