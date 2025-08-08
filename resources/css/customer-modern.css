@@ -1,0 +1,506 @@
+/* Bach Coffee - Customer Modern Theme */
+:root {
+    --coffee-primary: #3c2415;
+    --coffee-secondary: #8b4513;
+    --coffee-accent: #d4a574;
+    --coffee-light: #f5f1eb;
+    --coffee-dark: #2a1a0f;
+    --coffee-gradient: linear-gradient(135deg, #3c2415 0%, #8b4513 50%, #d4a574 100%);
+    --coffee-shadow: 0 8px 32px rgba(60, 36, 21, 0.3);
+    --coffee-shadow-lg: 0 20px 60px rgba(60, 36, 21, 0.3);
+}
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Source Sans Pro', sans-serif;
+    line-height: 1.6;
+    color: var(--coffee-dark);
+}
+
+/* Modern Hero Section */
+.hero-modern {
+    position: relative;
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('/uploads/neK.gif') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 70%, rgba(212, 165, 116, 0.3) 0%, transparent 60%);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    max-width: 800px;
+    padding: 0 20px;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(45deg, #fff, #d4a574);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-content p {
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    font-weight: 300;
+}
+
+.hero-btn {
+    background: var(--coffee-gradient);
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(60, 36, 21, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(60, 36, 21, 0.6);
+    color: white;
+}
+
+.hero-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.hero-btn:hover::before {
+    left: 100%;
+}
+
+/* Modern Navbar */
+.navbar-modern {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    padding: 15px 0;
+}
+
+.navbar-modern.scrolled {
+    background: rgba(60, 36, 21, 0.95) !important;
+    box-shadow: var(--coffee-shadow);
+}
+
+.navbar-modern .navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--coffee-primary) !important;
+    transition: all 0.3s ease;
+}
+
+.navbar-modern.scrolled .navbar-brand {
+    color: white !important;
+}
+
+.navbar-modern .nav-link {
+    color: var(--coffee-primary) !important;
+    font-weight: 500;
+    margin: 0 10px;
+    padding: 8px 16px !important;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-modern.scrolled .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.navbar-modern .nav-link:hover {
+    background: rgba(212, 165, 116, 0.2);
+    color: var(--coffee-primary) !important;
+    transform: translateY(-2px);
+}
+
+.navbar-modern.scrolled .nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white !important;
+}
+
+/* Modern Cards */
+.card-modern {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--coffee-shadow);
+    transition: all 0.4s ease;
+    background: white;
+    position: relative;
+}
+
+.card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--coffee-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card-modern:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--coffee-shadow-lg);
+}
+
+.card-modern:hover::before {
+    opacity: 1;
+}
+
+.card-modern .card-body {
+    padding: 30px;
+}
+
+.card-modern .card-title {
+    color: var(--coffee-primary);
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.card-modern .card-text {
+    color: #666;
+    line-height: 1.6;
+}
+
+.card-modern img {
+    transition: transform 0.4s ease;
+}
+
+.card-modern:hover img {
+    transform: scale(1.05);
+}
+
+/* Product Cards */
+.product-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--coffee-shadow);
+    transition: all 0.4s ease;
+    background: white;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--coffee-shadow-lg);
+}
+
+.product-image {
+    height: 250px;
+    object-fit: cover;
+    width: 100%;
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+.product-card .card-body {
+    padding: 25px;
+    text-align: center;
+}
+
+.product-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--coffee-primary);
+    margin-bottom: 10px;
+}
+
+.product-description {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.product-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--coffee-secondary);
+    margin-bottom: 20px;
+}
+
+.btn-order {
+    background: var(--coffee-gradient);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-order:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(60, 36, 21, 0.4);
+    color: white;
+}
+
+/* Section Headers */
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--coffee-primary);
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--coffee-gradient);
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Stats Section */
+.stats-section {
+    background: var(--coffee-gradient);
+    color: white;
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="25" cy="25" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1.5" fill="rgba(255,255,255,0.08)"/><circle cx="50" cy="10" r="1" fill="rgba(255,255,255,0.06)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+}
+
+.stats-item {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.stats-number {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.stats-label {
+    font-size: 1.1rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Footer */
+.footer-modern {
+    background: var(--coffee-dark);
+    color: white;
+    padding: 60px 0 30px;
+    position: relative;
+}
+
+.footer-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--coffee-gradient);
+}
+
+.footer-title {
+    color: var(--coffee-accent);
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+    color: var(--coffee-accent);
+    padding-left: 10px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.social-link:hover {
+    background: var(--coffee-accent);
+    color: var(--coffee-dark);
+    transform: translateY(-3px);
+}
+
+/* Animations */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+}
+
+.fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Loading Animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .stats-number {
+        font-size: 2.5rem;
+    }
+    
+    .product-card {
+        margin-bottom: 30px;
+    }
+    
+    .social-links {
+        justify-content: center;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}
