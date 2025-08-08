@@ -1,231 +1,465 @@
 @extends('layout.layout-admin')
 @section('content')
-    <link href="/bootstrap-5.3.3-dist/css/bootstrap.css" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(to bottom, #f8f9fa, #e9ecef) no-repeat,
-                repeating-linear-gradient(45deg, #f8f9fa 0%, #e9ecef 25%, #f8f9fa 50%) no-repeat;
-            background-size: 100% 100%, 20px 20px;
-            min-height: 100vh;
-        }
+<style>
+  :root {
+    --cream-primary: #f5f1eb;
+    --cream-secondary: #ede7dc;
+    --cream-light: #faf8f5;
+    --cream-dark: #e8e0d2;
+    --red-primary: #dc2626;
+    --red-secondary: #b91c1c;
+    --red-light: #fee2e2;
+    --red-dark: #991b1b;
+    --red-gradient: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
+    --cream-gradient: linear-gradient(135deg, #f5f1eb 0%, #ede7dc 50%, #e8e0d2 100%);
+    --modern-shadow: 0 10px 40px rgba(220, 38, 38, 0.15);
+    --modern-shadow-lg: 0 20px 60px rgba(220, 38, 38, 0.2);
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-radius: 16px;
+    --border-radius-lg: 24px;
+  }
 
-        .app-content-header {
-            background-color: #ffffff;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-        }
+  * {
+    font-family: 'Poppins', sans-serif !important;
+  }
 
-        .card-body {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
+  /* Modern Page Header */
+  .modern-header {
+    background: var(--cream-gradient);
+    padding: 2rem;
+    border-radius: var(--border-radius-lg);
+    margin-bottom: 2rem;
+    box-shadow: var(--modern-shadow);
+    border: 1px solid var(--cream-dark);
+  }
 
-        /* Tabel Styling */
-        .table {
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            /* Memberikan efek bayangan lembut */
-        }
+  .modern-header h2 {
+    color: var(--text-primary);
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-        /* Header Tabel */
-        .table-dark {
-            background-color: #343a40;
-            /* Warna gelap untuk header */
-            color: white;
-            /* Warna teks putih pada header */
-        }
+  .modern-header .breadcrumb {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    padding: 8px 16px;
+    margin: 0;
+    backdrop-filter: blur(10px);
+  }
 
-        /* Baris Tabel */
-        .table-striped tbody tr:nth-child(odd) {
-            background-color: #f9f9f9;
-            /* Memberikan warna latar belakang pada baris ganjil */
-        }
+  /* Modern Card */
+  .modern-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--modern-shadow);
+    border: 1px solid var(--cream-dark);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
 
-        .table-hover tbody tr:hover {
-            background-color: #f1f1f1;
-            /* Memberikan warna latar belakang saat hover */
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
-            /* Efek transisi halus */
-        }
+  .modern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--modern-shadow-lg);
+  }
 
-        /* Tombol Styling */
-        .btn {
-            padding: 8px 16px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
+  .modern-card-body {
+    padding: 2rem;
+  }
 
-        .btn:hover {
-            opacity: 0.8;
-            /* Efek transparansi saat hover */
-            transform: translateY(-2px);
-            /* Efek angkat tombol saat hover */
-        }
+  /* Modern Button */
+  .btn-modern-primary {
+    background: var(--red-gradient) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 600 !important;
+    padding: 12px 24px !important;
+    border-radius: var(--border-radius) !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-        .btn-warning {
-            background-color: #f0ad4e;
-            /* Warna oranye */
-        }
+  .btn-modern-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--modern-shadow);
+    color: white !important;
+  }
 
-        .btn-warning:hover {
-            background-color: #ec971f;
-            /* Warna lebih gelap saat hover */
-        }
+  /* Modern Table */
+  .modern-table {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--modern-shadow);
+    border: 1px solid var(--cream-dark);
+    background: white;
+  }
 
-        .btn-danger {
-            background-color: #d9534f;
-            /* Warna merah */
-        }
+  .modern-table thead {
+    background: var(--red-gradient);
+    color: white;
+  }
 
-        .btn-danger:hover {
-            background-color: #c9302c;
-            /* Warna lebih gelap saat hover */
-        }
+  .modern-table thead th {
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+    text-align: center;
+  }
 
-        /* Styling Kolom ID */
-        th {
-            text-align: center;
-            font-weight: bold;
-        }
+  .modern-table tbody tr {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid var(--cream-secondary);
+  }
 
-        /* Styling Kolom Aksi */
-        td button {
-            margin-right: 8px;
-        }
-    </style>
-    <div class="container">
-        <!-- Update alert markup -->
-        @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+  .modern-table tbody tr:hover {
+    background: var(--cream-light);
+    transform: scale(1.01);
+  }
 
-        @if (session('error'))
-            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+  .modern-table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    text-align: center;
+    border: none;
+  }
 
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-        <div class="card mt-3">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h3>Tambah Transaksi</h3>
-                    </div>
-                </div>
-            </div>
+  /* Modern Form */
+  .form-label {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .form-control, .form-select {
+    border: 2px solid var(--cream-dark) !important;
+    border-radius: var(--border-radius) !important;
+    padding: 12px 16px !important;
+    transition: all 0.3s ease !important;
+    background: var(--cream-light) !important;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: var(--red-primary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.25) !important;
+    background: white !important;
+  }
+
+  /* Modern Alerts */
+  .alert {
+    border: none !important;
+    border-radius: var(--border-radius) !important;
+    padding: 1rem 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    box-shadow: var(--modern-shadow) !important;
+    font-weight: 500 !important;
+  }
+
+  .alert-success {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: white !important;
+  }
+
+  .alert-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    color: white !important;
+  }
+
+  /* Modern Secondary Buttons */
+  .btn-secondary {
+    background: var(--cream-secondary) !important;
+    border: 2px solid var(--cream-dark) !important;
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    border-radius: var(--border-radius) !important;
+  }
+
+  .btn-secondary:hover {
+    background: var(--text-primary) !important;
+    border-color: var(--text-primary) !important;
+    color: white !important;
+  }
+
+  .btn-success {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    border: none !important;
+    font-weight: 600 !important;
+    border-radius: var(--border-radius) !important;
+  }
+
+  .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--modern-shadow);
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    border: none !important;
+    font-weight: 600 !important;
+    border-radius: var(--border-radius) !important;
+  }
+
+  .btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--modern-shadow);
+  }
+
+  .btn-primary {
+    background: var(--red-gradient) !important;
+    border: none !important;
+    font-weight: 600 !important;
+    border-radius: var(--border-radius) !important;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--modern-shadow);
+  }
+
+  /* Transaction Form Styling */
+  .transaction-summary {
+    background: var(--cream-light);
+    border: 2px solid var(--cream-dark);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .transaction-summary h5 {
+    color: var(--text-primary);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .product-row {
+    background: white;
+    border: 1px solid var(--cream-dark);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .product-row:hover {
+    box-shadow: var(--modern-shadow);
+  }
+
+  /* Price Display */
+  .price-display {
+    font-family: 'Roboto Mono', monospace !important;
+    font-weight: 600;
+    color: var(--red-primary);
+  }
+
+  /* Member Badge */
+  .member-badge {
+    background: var(--red-gradient);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+</style>
+<!--begin::App Content-->
+<div class="app-content">
+  <!--begin::Container-->
+  <div class="container-fluid">
+    
+    <!-- Modern Page Header -->
+    <div class="modern-header">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h2>
+            <i class="bi bi-receipt" style="color: var(--red-primary);"></i>
+            Kelola Transaksi
+          </h2>
+          <p class="mb-0 text-muted mt-1">Form transaksi penjualan Bach Coffee</p>
         </div>
-        <div class="card mt-3">
-            <div class="card-body">
-                <form id="transactionForm" action="{{ route('transaksi.store') }}" method="POST">
-                    @csrf
-                    <!-- Member Selection -->
-                    <div class="mb-3">
-                        <label class="mb-2">Member</label>
-                        <select name="id_member" class="form-select">
-                            <option value="">Non Member</option>
-                            @foreach($members as $member)
-                                <option value="{{ $member->id_member }}">{{ $member->nama_member }} - {{  $member->total_poin }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- Products Section -->
-                    <div id="product-container">
-                        <div class="product-row row mb-3 align-items-center">
-                            <div class="col-md-3">
-                                <select name="products[0][id]" class="form-select product-select" required>
-                                    <option value="">Pilih Produk</option>
-                                    @foreach($products as $product)
-                                        <option value="{{ $product->id_produk }}" data-harga="{{ $product->harga_produk }}">
-                                            {{ $product->nama_produk }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="number" name="products[0][quantity]" class="form-control quantity" min="1"
-                                    required placeholder="Jumlah">
-                            </div>
-                            <div class="col-md-2">
-                                <input type="text" class="form-control harga" readonly data-value="0">
-                            </div>
-                            <div class="col-md-2">
-                                <input type="text" class="form-control subtotal" readonly data-value="0">
-                            </div>
-                            <div class="col-md-3 d-flex gap-2">
-                                <button type="button" class="btn btn-danger btn-sm remove-product">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                                <button type="button" class="btn btn-primary btn-sm btn-add-product">
-                                    <i class="bi bi-plus-circle"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Totals Section -->
-                    <div class="row">
-                        <div class="col-md-6 offset-md-6">
-                            <table class="table">
-                                <tr>
-                                    <td>Total Harga</td>
-                                    <td>
-                                        <input type="hidden" name="total_harga" id="total_harga_raw">
-                                        <input type="text" id="total_harga_display" class="form-control" readonly>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Gunakan Poin</td>
-                                    <td>
-                                        <input type="number" name="poinuse" id="poinuse" class="form-control" min="0"
-                                            value="0">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Total Setelah Poin</td>
-                                    <td>
-                                        <input type="text" id="final_total_display" class="form-control" readonly>
-                                        <input type="hidden" name="final_total" id="final_total_raw">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Poin Di Dapat</td>
-                                    <td>
-                                        <input type="number" name="poin" id="poin" class="form-control" readonly>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Simpan Transaksi</button>
-                </form>
-            </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end mb-0">
+            <li class="breadcrumb-item">
+              <a href="#" style="color: var(--red-primary); text-decoration: none;">
+                <i class="bi bi-house-door me-1"></i>Home
+              </a>
+            </li>
+            <li class="breadcrumb-item active" style="color: var(--text-primary);">Transaksi</li>
+          </ol>
         </div>
+      </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Alerts -->
+    @if ($errors->any())
+      <div class="alert alert-danger d-flex align-items-center" id="error-alert" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <ul class="mb-0">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+
+    @if (session('error'))
+      <div class="alert alert-danger d-flex align-items-center" id="error-alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {{ session('error') }}
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+
+    @if (session('success'))
+      <div class="alert alert-success d-flex align-items-center" id="success-alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        {{ session('success') }}
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+    
+    <!-- Transaction Form Card -->
+    <div class="modern-card">
+      <div class="modern-card-body">
+        <!-- Action Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="mb-1" style="color: var(--text-primary); font-weight: 600;">
+              <i class="bi bi-plus-circle me-2" style="color: var(--red-primary);"></i>
+              Tambah Transaksi
+            </h4>
+            <p class="mb-0 text-muted">Buat transaksi penjualan baru</p>
+          </div>
+        </div>
+
+        <form id="transactionForm" action="{{ route('transaksi.store') }}" method="POST">
+          @csrf
+          
+          <!-- Member Selection -->
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <label class="form-label">
+                <i class="bi bi-person-fill me-2"></i>Member
+              </label>
+              <select name="id_member" class="form-select">
+                <option value="">Non Member</option>
+                @foreach($members as $member)
+                  <option value="{{ $member->id_member }}">
+                    {{ $member->nama_member }} 
+                    <span class="member-badge">{{ $member->total_poin }} poin</span>
+                  </option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+
+          <!-- Products Section -->
+          <div class="mb-4">
+            <h5 class="mb-3" style="color: var(--text-primary); font-weight: 600;">
+              <i class="bi bi-cup-hot me-2" style="color: var(--red-primary);"></i>
+              Pilih Produk
+            </h5>
+            
+            <div id="product-container">
+              <div class="product-row">
+                <div class="row align-items-center">
+                  <div class="col-md-4">
+                    <label class="form-label">Produk</label>
+                    <select name="products[0][id]" class="form-select product-select" required>
+                      <option value="">Pilih Produk</option>
+                      @foreach($products as $product)
+                        <option value="{{ $product->id_produk }}" data-harga="{{ $product->harga_produk }}">
+                          {{ $product->nama_produk }}
+                        </option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label">Jumlah</label>
+                    <input type="number" name="products[0][quantity]" class="form-control quantity" min="1" required placeholder="1">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label">Harga</label>
+                    <input type="text" class="form-control harga price-display" readonly data-value="0" placeholder="Rp 0">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label">Subtotal</label>
+                    <input type="text" class="form-control subtotal price-display" readonly data-value="0" placeholder="Rp 0">
+                  </div>
+                  <div class="col-md-2 d-flex gap-2 align-items-end">
+                    <button type="button" class="btn btn-danger btn-sm remove-product">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm btn-add-product">
+                      <i class="bi bi-plus-circle"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Transaction Summary -->
+          <div class="transaction-summary">
+            <h5>
+              <i class="bi bi-calculator me-2" style="color: var(--red-primary);"></i>
+              Ringkasan Transaksi
+            </h5>
+            
+            <div class="row">
+              <div class="col-md-6 offset-md-6">
+                <table class="modern-table table">
+                  <tbody>
+                    <tr>
+                      <td style="text-align: left; font-weight: 600;">Total Harga</td>
+                      <td style="text-align: right;">
+                        <input type="hidden" name="total_harga" id="total_harga_raw">
+                        <input type="text" id="total_harga_display" class="form-control price-display text-end" readonly placeholder="Rp 0">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left; font-weight: 600;">Gunakan Poin</td>
+                      <td style="text-align: right;">
+                        <input type="number" name="poinuse" id="poinuse" class="form-control text-end" min="0" value="0" placeholder="0">
+                      </td>
+                    </tr>
+                    <tr style="background: var(--cream-light);">
+                      <td style="text-align: left; font-weight: 700; color: var(--red-primary);">Total Setelah Poin</td>
+                      <td style="text-align: right;">
+                        <input type="text" id="final_total_display" class="form-control price-display text-end" readonly placeholder="Rp 0" style="font-weight: 700; color: var(--red-primary);">
+                        <input type="hidden" name="final_total" id="final_total_raw">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left; font-weight: 600; color: var(--text-secondary);">Poin Didapat</td>
+                      <td style="text-align: right;">
+                        <input type="number" name="poin" id="poin" class="form-control text-end" readonly placeholder="0" style="color: var(--text-secondary);">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end mt-4">
+            <button type="submit" class="btn-modern-primary">
+              <i class="bi bi-save"></i>
+              Simpan Transaksi
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--end::Container-->
+</div>
+<!--end::App Content-->
+
     <script>
         let productCount = 1;
 
@@ -249,7 +483,11 @@
                 });
 
                 // Clear values
-                template.querySelectorAll('input').forEach(input => input.value = '');
+                template.querySelectorAll('input').forEach(input => {
+                    input.value = '';
+                    input.placeholder = input.classList.contains('quantity') ? '1' : 
+                                      input.classList.contains('harga') || input.classList.contains('subtotal') ? 'Rp 0' : input.placeholder;
+                });
                 template.querySelector('select').selectedIndex = 0;
 
                 this.appendChild(template);
@@ -262,7 +500,8 @@
                     e.target.closest('.product-row').remove();
                     calculateTotals();
                 } else {
-                    alert('Minimal harus ada 1 produk!');
+                    // Modern alert
+                    showAlert('Minimal harus ada 1 produk!', 'warning');
                 }
             }
         });
@@ -324,12 +563,17 @@
             const selectedOption = memberSelect.options[memberSelect.selectedIndex];
 
             if (memberSelect.value) {
-                const availablePoints = Number(selectedOption.textContent.split('-')[1].trim());
+                const memberText = selectedOption.textContent;
+                const pointMatch = memberText.match(/(\d+)\s*poin/);
+                const availablePoints = pointMatch ? Number(pointMatch[1]) : 0;
+                
                 if (this.value > availablePoints) {
                     this.value = availablePoints;
+                    showAlert(`Maksimal poin yang dapat digunakan: ${availablePoints}`, 'warning');
                 }
             } else {
                 this.value = 0;
+                showAlert('Pilih member terlebih dahulu untuk menggunakan poin', 'warning');
             }
 
             calculateTotals();
@@ -347,25 +591,72 @@
             calculateTotals();
         });
 
-        document.getElementById('transactionForm').onsubmit = function (e) {
+        // Form submission validation
+        document.getElementById('transactionForm').addEventListener('submit', function(e) {
+            // Check if at least one product is selected
+            const productSelects = document.querySelectorAll('.product-select');
+            let hasValidProduct = false;
+            
+            productSelects.forEach(select => {
+                if (select.value) hasValidProduct = true;
+            });
+            
+            if (!hasValidProduct) {
+                e.preventDefault();
+                showAlert('Pilih minimal 1 produk!', 'danger');
+                return false;
+            }
+            
             // Ensure raw values are submitted
             const totalHarga = document.getElementById('total_harga_raw').value;
-            this.total_harga.value = totalHarga;
+            if (!totalHarga || totalHarga == 0) {
+                e.preventDefault();
+                showAlert('Total transaksi tidak boleh kosong!', 'danger');
+                return false;
+            }
+        });
+
+        // Modern alert function
+        function showAlert(message, type = 'info') {
+            const alertContainer = document.querySelector('.app-content .container-fluid');
+            const alertHTML = `
+                <div class="alert alert-${type} d-flex align-items-center alert-dismissible fade show" role="alert">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            
+            alertContainer.insertAdjacentHTML('afterbegin', alertHTML);
+            
+            // Auto-dismiss after 3 seconds
+            setTimeout(() => {
+                const alert = alertContainer.querySelector('.alert:first-child');
+                if (alert) {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }
+            }, 3000);
         }
 
-        // Alert auto-close
+        // Auto-close alerts on page load
         document.addEventListener('DOMContentLoaded', function () {
+            // Initialize member points input state
+            const memberSelect = document.querySelector('select[name="id_member"]');
+            const pointsInput = document.getElementById('poinuse');
+            
+            if (!memberSelect.value) {
+                pointsInput.disabled = true;
+            }
+            
+            // Auto-close existing alerts
             const alerts = document.querySelectorAll('.alert');
             alerts.forEach(alert => {
-                // Create Bootstrap alert instance
                 const bsAlert = new bootstrap.Alert(alert);
-
-                // Set timeout to close after 3 seconds
                 setTimeout(() => {
                     bsAlert.close();
                 }, 3000);
             });
         });
-
     </script>
 @endsection

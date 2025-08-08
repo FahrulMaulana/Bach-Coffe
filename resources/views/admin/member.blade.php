@@ -1,103 +1,313 @@
 @extends('layout.layout-admin')
 @section('content')
-<link href="/bootstrap-5.3.3-dist/css/bootstrap.css" rel="stylesheet">
 <style>
-    body {
-        background: linear-gradient(to bottom, #f8f9fa, #e9ecef) no-repeat,
-            repeating-linear-gradient(45deg, #f8f9fa 0%, #e9ecef 25%, #f8f9fa 50%) no-repeat;
-        background-size: 100% 100%, 20px 20px;
-        min-height: 100vh;
-    }
+  :root {
+    --cream-primary: #f5f1eb;
+    --cream-secondary: #ede7dc;
+    --cream-light: #faf8f5;
+    --cream-dark: #e8e0d2;
+    --red-primary: #dc2626;
+    --red-secondary: #b91c1c;
+    --red-light: #fee2e2;
+    --red-dark: #991b1b;
+    --red-gradient: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
+    --cream-gradient: linear-gradient(135deg, #f5f1eb 0%, #ede7dc 50%, #e8e0d2 100%);
+    --modern-shadow: 0 10px 40px rgba(220, 38, 38, 0.15);
+    --modern-shadow-lg: 0 20px 60px rgba(220, 38, 38, 0.2);
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-radius: 16px;
+    --border-radius-lg: 24px;
+  }
 
-    .app-content-header {
-        background-color: #ffffff;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-bottom: 20px;
-        border-radius: 8px;
-    }
+  * {
+    font-family: 'Poppins', sans-serif !important;
+  }
 
-    .card-body {
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-    }
+  /* Modern Page Header */
+  .modern-header {
+    background: var(--cream-gradient);
+    padding: 2rem;
+    border-radius: var(--border-radius-lg);
+    margin-bottom: 2rem;
+    box-shadow: var(--modern-shadow);
+    border: 1px solid var(--cream-dark);
+  }
 
-    /* Tabel Styling */
-    .table {
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        /* Memberikan efek bayangan lembut */
-    }
+  .modern-header h2 {
+    color: var(--text-primary);
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-    /* Header Tabel */
-    .table-dark {
-        background-color: #343a40;
-        /* Warna gelap untuk header */
-        color: white;
-        /* Warna teks putih pada header */
-    }
+  .modern-header .breadcrumb {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    padding: 8px 16px;
+    margin: 0;
+    backdrop-filter: blur(10px);
+  }
 
-    /* Baris Tabel */
-    .table-striped tbody tr:nth-child(odd) {
-        background-color: #f9f9f9;
-        /* Memberikan warna latar belakang pada baris ganjil */
-    }
+  /* Modern Card */
+  .modern-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--modern-shadow);
+    border: 1px solid var(--cream-dark);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
 
-    .table-hover tbody tr:hover {
-        background-color: #f1f1f1;
-        /* Memberikan warna latar belakang saat hover */
-        cursor: pointer;
-        transition: background-color 0.3s ease-in-out;
-        /* Efek transisi halus */
-    }
+  .modern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--modern-shadow-lg);
+  }
 
-    /* Tombol Styling */
-    .btn {
-        padding: 8px 16px;
-        border-radius: 5px;
-        transition: all 0.3s ease;
-    }
+  .modern-card-body {
+    padding: 2rem;
+  }
 
-    .btn:hover {
-        opacity: 0.8;
-        /* Efek transparansi saat hover */
-        transform: translateY(-2px);
-        /* Efek angkat tombol saat hover */
-    }
+  /* Modern Button */
+  .btn-modern-primary {
+    background: var(--red-gradient) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 600 !important;
+    padding: 12px 24px !important;
+    border-radius: var(--border-radius) !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-    .btn-warning {
-        background-color: #f0ad4e;
-        /* Warna oranye */
-    }
+  .btn-modern-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--modern-shadow);
+    color: white !important;
+  }
 
-    .btn-warning:hover {
-        background-color: #ec971f;
-        /* Warna lebih gelap saat hover */
-    }
+  /* Modern Table */
+  .modern-table {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--modern-shadow);
+    border: 1px solid var(--cream-dark);
+    background: white;
+  }
 
-    .btn-danger {
-        background-color: #d9534f;
-        /* Warna merah */
-    }
+  .modern-table thead {
+    background: var(--red-gradient);
+    color: white;
+  }
 
-    .btn-danger:hover {
-        background-color: #c9302c;
-        /* Warna lebih gelap saat hover */
-    }
+  .modern-table thead th {
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+    text-align: center;
+  }
 
-    /* Styling Kolom ID */
-    th {
-        text-align: center;
-        font-weight: bold;
-    }
+  .modern-table tbody tr {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid var(--cream-secondary);
+  }
 
-    /* Styling Kolom Aksi */
-    td button {
-        margin-right: 8px;
-    }
+  .modern-table tbody tr:hover {
+    background: var(--cream-light);
+    transform: scale(1.01);
+  }
+
+  .modern-table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    text-align: center;
+    border: none;
+  }
+
+  /* Modern Modal */
+  .modal-content {
+    border-radius: var(--border-radius) !important;
+    border: none !important;
+    box-shadow: var(--modern-shadow-lg) !important;
+  }
+
+  .modal-header {
+    background: var(--cream-gradient) !important;
+    border-bottom: 1px solid var(--cream-dark) !important;
+    border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+    padding: 1.5rem !important;
+  }
+
+  .modal-title {
+    color: var(--text-primary) !important;
+    font-weight: 700 !important;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .modal-body {
+    padding: 2rem !important;
+  }
+
+  .modal-footer {
+    background: var(--cream-light) !important;
+    border-top: 1px solid var(--cream-dark) !important;
+    border-radius: 0 0 var(--border-radius) var(--border-radius) !important;
+    padding: 1.5rem !important;
+  }
+
+  /* Modern Form */
+  .form-label {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .form-control {
+    border: 2px solid var(--cream-dark) !important;
+    border-radius: var(--border-radius) !important;
+    padding: 12px 16px !important;
+    transition: all 0.3s ease !important;
+    background: var(--cream-light) !important;
+  }
+
+  .form-control:focus {
+    border-color: var(--red-primary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.25) !important;
+    background: white !important;
+  }
+
+  /* Modern Alerts */
+  .alert {
+    border: none !important;
+    border-radius: var(--border-radius) !important;
+    padding: 1rem 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    box-shadow: var(--modern-shadow) !important;
+    font-weight: 500 !important;
+  }
+
+  .alert-success {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: white !important;
+  }
+
+  .alert-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    color: white !important;
+  }
+
+  /* Modern Action Buttons */
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    margin: 0 4px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--modern-shadow);
+  }
+
+  .action-btn-edit {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+  }
+
+  .action-btn-delete {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+  }
+
+  /* Modern Pagination */
+  .pagination {
+    gap: 8px;
+  }
+
+  .page-link {
+    border: 2px solid var(--cream-dark) !important;
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+    padding: 10px 16px !important;
+    transition: all 0.3s ease !important;
+    margin: 0 !important;
+  }
+
+  .page-link:hover {
+    background: var(--red-primary) !important;
+    border-color: var(--red-primary) !important;
+    color: white !important;
+    transform: translateY(-2px);
+  }
+
+  .page-item.active .page-link {
+    background: var(--red-gradient) !important;
+    border-color: var(--red-primary) !important;
+    color: white !important;
+  }
+
+  /* Modern Secondary Buttons */
+  .btn-secondary {
+    background: var(--cream-secondary) !important;
+    border: 2px solid var(--cream-dark) !important;
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    border-radius: var(--border-radius) !important;
+  }
+
+  .btn-secondary:hover {
+    background: var(--text-primary) !important;
+    border-color: var(--text-primary) !important;
+    color: white !important;
+  }
+
+  .btn-success {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    border: none !important;
+    font-weight: 600 !important;
+    border-radius: var(--border-radius) !important;
+  }
+
+  .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--modern-shadow);
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    border: none !important;
+    font-weight: 600 !important;
+    border-radius: var(--border-radius) !important;
+  }
+
+  .btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--modern-shadow);
+  }
+
+  /* No Data State */
+  .no-data-state {
+    padding: 3rem;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
+  .no-data-state img {
+    opacity: 0.7;
+    margin-bottom: 1rem;
+  }
 </style>
 
 <!--begin::App Content Header-->
@@ -106,92 +316,316 @@
 
 <!--begin::App Content-->
 <div class="app-content">
-    <!--begin::Container-->
-    <div class="container-fluid">
-        <!-- begin::Row-->
-        @if ($errors->any())
-        <div class="alert alert-danger d-flex align-items-center mt-3" id="error-alert" role="alert">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+  <!--begin::Container-->
+  <div class="container-fluid">
+    
+    <!-- Modern Page Header -->
+    <div class="modern-header">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h2>
+            <i class="bi bi-people-fill" style="color: var(--red-primary);"></i>
+            Kelola Member
+          </h2>
+          <p class="mb-0 text-muted mt-1">Manajemen data member Bach Coffee</p>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end mb-0">
+            <li class="breadcrumb-item">
+              <a href="#" style="color: var(--red-primary); text-decoration: none;">
+                <i class="bi bi-house-door me-1"></i>Home
+              </a>
+            </li>
+            <li class="breadcrumb-item active" style="color: var(--text-primary);">Member</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alerts -->
+    @if ($errors->any())
+      <div class="alert alert-danger d-flex align-items-center" id="error-alert" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <ul class="mb-0">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+
+    @if (session('error'))
+      <div class="alert alert-danger d-flex align-items-center" id="error-alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {{ session('error') }}
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+
+    @if (session('success'))
+      <div class="alert alert-success d-flex align-items-center" id="success-alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        {{ session('success') }}
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+    
+    <!-- Main Content Card -->
+    <div class="modern-card">
+      <div class="modern-card-body">
+        <!-- Action Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="mb-1" style="color: var(--text-primary); font-weight: 600;">Data Member</h4>
+            <p class="mb-0 text-muted">Daftar semua member yang terdaftar</p>
+          </div>
+          <button type="button" class="btn-modern-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <i class="bi bi-person-plus"></i>
+            Tambah Member
+          </button>
+        </div>
+
+        <!-- Modern Data Table -->
+        <div class="table-responsive">
+          <table class="modern-table table">
+            <thead>
+              <tr>
+                <th style="width: 10%">
+                  <i class="bi bi-hash me-2"></i>ID
+                </th>
+                <th>
+                  <i class="bi bi-phone me-2"></i>Nomor HP
+                </th>
+                <th>
+                  <i class="bi bi-person me-2"></i>Nama Member
+                </th>
+                <th>
+                  <i class="bi bi-envelope me-2"></i>Email
+                </th>
+                <th>
+                  <i class="bi bi-star me-2"></i>Total Poin
+                </th>
+                <th style="width: 20%">
+                  <i class="bi bi-gear me-2"></i>Aksi
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @if ($member->isEmpty())
+                <tr>
+                  <td colspan="6" class="no-data-state">
+                    <img src="{{ asset('/build/assets/Animation - 1736668256622.gif') }}" alt="No Data" style="width: 150px;">
+                    <h5 class="mt-3">Belum ada data member</h5>
+                    <p>Klik tombol "Tambah Member" untuk menambah data baru</p>
+                  </td>
+                </tr>
+              @else
+                @foreach ($member as $data)
+                  <tr>
+                    <td class="fw-bold">{{ $data->member->id_member ?? ''}}</td>
+                    <td>{{ $data->member->nomor_hp ?? '' }}</td>
+                    <td>{{ $data->member->nama_member ?? ''}}</td>
+                    <td>{{ $data->member->email ?? ''}}</td>
+                    <td>
+                      <span class="badge bg-success fs-6">{{ $data->member->total_poin ?? '0' }}</span>
+                    </td>
+                    <td>
+                      <!-- Tombol Edit -->
+                      <a href="javascript:void(0)" 
+                         data-bs-toggle="modal" 
+                         data-bs-target="#staticBackdropUpdate" 
+                         onclick="setEditData('{{ $data->member->id_member ?? ''}}', '{{ $data->member->nomor_hp ?? '' }}', '{{ $data->member->nama_member ?? ''}}', '{{ $data->member->email ?? ''}}')"
+                         class="action-btn action-btn-edit" 
+                         title="Edit Member">
+                        <i class="bi bi-pencil-square"></i>
+                      </a>
+
+                      <!-- Tombol Hapus -->
+                      <a href="javascript:void(0)" 
+                         data-bs-toggle="modal" 
+                         data-bs-target="#staticBackdropDelete" 
+                         onclick="setDeleteData('{{ $data->member->id_member ?? ''}}')" 
+                         class="action-btn action-btn-delete" 
+                         title="Hapus Member">
+                        <i class="bi bi-trash"></i>
+                      </a>
+                    </td>
+                  </tr>
                 @endforeach
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="display: none;"></button>
+              @endif
+            </tbody>
+          </table>
+
+          <!-- Modern Pagination -->
+          @if (!$member->isEmpty())
+            <nav aria-label="Navigasi halaman" class="mt-4">
+              <ul class="pagination justify-content-end">
+                <!-- Previous Page -->
+                <li class="page-item {{ $member->onFirstPage() ? 'disabled' : '' }}">
+                  <a class="page-link" href="{{ $member->previousPageUrl() }}" tabindex="-1">
+                    <i class="bi bi-chevron-left me-1"></i>Previous
+                  </a>
+                </li>
+                
+                <!-- Page Numbers -->
+                @for ($i = 1; $i <= $member->lastPage(); $i++)
+                  <li class="page-item {{ $i == $member->currentPage() ? 'active' : '' }}">
+                    <a class="page-link" href="{{ $member->url($i) }}">{{ $i }}</a>
+                  </li>
+                @endfor
+
+                <!-- Next Page -->
+                <li class="page-item {{ $member->hasMorePages() ? '' : 'disabled' }}">
+                  <a class="page-link" href="{{ $member->nextPageUrl() }}">
+                    Next<i class="bi bi-chevron-right ms-1"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          @endif
         </div>
-        @endif
+      </div>
+    </div>
+  </div>
+  <!--end::Container-->
+</div>
+<!--end::App Content-->
 
-        @if (session('error'))
-        <div class="alert alert-danger mt-3" id="error-alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="display: none;"></button>
+<!-- CREATE MODAL -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          <i class="bi bi-person-plus-fill" style="color: var(--red-primary);"></i>
+          Tambah Member
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Form Tambah Member -->
+        <form id="tambahMemberForm" action="{{route('member.store')}}" method="POST">
+          @csrf
+          <div class="mb-3">
+            <label for="nomor_hp" class="form-label">
+              <i class="bi bi-phone me-2"></i>Nomor HP
+            </label>
+            <input type="text" class="form-control" id="nomor_hp" name="nomor_hp" placeholder="Masukkan nomor HP" required>
+          </div>
+          <div class="mb-3">
+            <label for="nama_member" class="form-label">
+              <i class="bi bi-person me-2"></i>Nama Member
+            </label>
+            <input type="text" class="form-control" id="nama_member" name="nama_member" placeholder="Masukkan nama member" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">
+              <i class="bi bi-envelope me-2"></i>Email
+            </label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email" required>
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle me-2"></i>Batal
+        </button>
+        <button type="submit" class="btn btn-success" form="tambahMemberForm">
+          <i class="bi bi-check-circle me-2"></i>Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- UPDATE MODAL -->
+<div class="modal fade" id="staticBackdropUpdate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropUpdateLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropUpdateLabel">
+          <i class="bi bi-pencil-square" style="color: var(--red-primary);"></i>
+          Update Member
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <form id="updateMemberForm" action="{{ url('/admin/member/update') }}/" method="POST">
+          @csrf
+          <!-- Input Hidden untuk ID Member -->
+          <input type="hidden" id="id_member2" name="id_member">
+
+          <div class="mb-3">
+            <label for="nama_member2" class="form-label">
+              <i class="bi bi-person me-2"></i>Nama Member
+            </label>
+            <input type="text" class="form-control" id="nama_member2" name="nama_member" placeholder="Masukkan nama member" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="email2" class="form-label">
+              <i class="bi bi-envelope me-2"></i>Email
+            </label>
+            <input type="email" class="form-control" id="email2" name="email" placeholder="Masukkan email" required>
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle me-2"></i>Batal
+        </button>
+        <button type="submit" class="btn btn-success" form="updateMemberForm">
+          <i class="bi bi-check-circle me-2"></i>Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal fade" id="staticBackdropDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropDeleteLabel">
+          <i class="bi bi-exclamation-triangle" style="color: var(--red-primary);"></i>
+          Konfirmasi Hapus
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center py-3">
+          <i class="bi bi-trash3 fs-1 text-danger mb-3"></i>
+          <h5 class="mb-2">Apakah Anda yakin?</h5>
+          <p class="text-muted">Data member yang dihapus tidak dapat dikembalikan!</p>
         </div>
-        @endif
-
-        <!-- Success alert -->
-        @if (session('success'))
-        <div class="alert alert-success mt-3" id="success-alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="display: none;"></button>
-        </div>
-        @endif
-
-        <div>
-            <div class="card-body mt-3">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h3>Member</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body mt-3">
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-primary mb-4 text-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        Tambah Member
-                    </button>
-                </div>
-
-                <!-- CREATE -->
-
-
-                <!-- Modal -->
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <!-- Modal Header -->
-                            <div class="modal-header" style="padding: 15px; display: flex; justify-content: center; align-items: center;">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel" style="font-weight: bold; text-align: center; margin: 0;">Tambah Kasir</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: white; opacity: 1; border-radius: 50%;"></button>
-                            </div>
-
-                            <!-- Modal Body -->
-                            <div class="modal-body" style="padding: 20px;">
-                                <!-- Form Tambah Kasir -->
-                                <form id="tambahKasirForm" action="{{route('member.store')}}" method="POST">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <div class="mb-3">
-                                            <label for="nomor_hp" class="form-label" style="font-weight: bold;">Nomor HP</label>
-                                            <input type="text" class="form-control" id="nomor_hp" name="nomor_hp" placeholder="Nomor HP" required style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-                                        </div>
-                                        <label for="nama_member" class="form-label" style="font-weight: bold;">Nama Member</label>
-                                        <input type="text" class="form-control" id="nama_member" name="nama_member" placeholder="Nama Member" required style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label" style="font-weight: bold;">Email</label>
-                                        <input type="email" class="form-control " id="email" name="email" placeholder="Masukkan Email" required style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- Modal Footer -->
-                            <div class="modal-footer" style=" display: flex; justify-content: flex-end; ">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 14px; padding: 8px 15px; border-radius: 8px;">Close</button>
-                                <button type="submit" class="btn btn-primary" form="tambahKasirForm" style="font-size: 14px; padding: 8px 15px; border-radius: 8px;">Simpan</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle me-2"></i>Batal
+        </button>
+        <form id="deleteForm" action="{{ url('/admin/member/delete') }}/" method="POST" style="display: inline;">
+          @csrf
+          <input type="hidden" name="id_member" id="id_member3">
+          <button type="submit" class="btn btn-danger">
+            <i class="bi bi-trash me-2"></i>Ya, Hapus
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
                 <!-- UPDATE -->
 
 
@@ -263,83 +697,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover  shadow-lg">
-                        <thead class="table-secondary">
-                            <tr>
-                                <th style="width: 10px">ID</th>
-                                <th>Nomor HP</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>Total Poin</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        @if ($member->isEmpty())
-                        <tr>
-                            <td colspan="6" class="text-center text-muted">
-                                <img src="{{ asset('/build/assets/Animation - 1736668256622.gif') }}" alt="No Data" style="width: 150px; margin-top: 10px;">
-                            </td>
-                        </tr>
-                        @else
-                        <tbody style="text-align: center;">
-                            @foreach ($member as $data)
-                            <tr class="align-middle">
-                                <td>{{ $data->member->id_member ?? ''}}</td>
-                                <td>{{ $data->member->nomor_hp ?? '' }}</td>
-                                <td>{{ $data->member->nama_member ?? ''}}</td>
-                                <td>{{ $data->member->email ?? ''}}</td>
-                                <td>{{ $data->member->total_poin ?? ''}}</td>
-                                <td>
-                                    <!-- Tombol Edit (Update) -->
-                                    <a
-                                        href="javascript:void(0)"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropUpdate"
-                                        onclick="setEditData('{{ $data->member->id_member ?? ''}}', '{{ $data->member->nomor_hp ?? '' }}', '{{ $data->member->nama_member ?? ''}}', '{{ $data->member->email ?? ''}}')"
-                                        class="text-warning"
-                                        title="Edit">
-                                        <i class="bi bi-pencil-square fs-5"></i>
-                                    </a>
-
-                                    <!-- Tombol Hapus (Delete) -->
-                                    <a
-                                        href="javascript:void(0)"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropDelete"
-                                        onclick="setDeleteData('{{ $data->member->id_member ?? ''}}')"
-                                        class="text-danger"
-                                        title="Delete">
-                                        <i class="bi bi-trash fs-5"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-end">
-                            <!-- Previous Page -->
-                            <li class="page-item {{ $member->onFirstPage() ? 'disabled' : '' }}">
-                                <a class="page-link" href="{{ $member->previousPageUrl() }}" tabindex="-1" aria-disabled="true">Previous</a>
-                            </li>
-
-                            <!-- Page Number Links -->
-                            @for ($i = 1; $i <= $member->lastPage(); $i++)
-                                <li class="page-item {{ $i == $member->currentPage() ? 'active' : '' }}">
-                                    <a class="page-link" href="{{ $member->url($i) }}">{{ $i }}</a>
-                                </li>
-                                @endfor
-
-                                <!-- Next Page -->
-                                <li class="page-item {{ $member->hasMorePages() ? '' : 'disabled' }}">
-                                    <a class="page-link" href="{{ $member->nextPageUrl() }}">Next</a>
-                                </li>
-                        </ul>
-                    </nav>
-                </div>
             </div>
         </div>
         <!-- /.row -->
@@ -348,56 +705,134 @@
 </div>
 <!--end::App Content-->
 <script>
-    // Fungsi untuk mengisi data edit
-    function setEditData(id_member, nomor_hp, nama_member, email) {
-        console.log('id_member', id_member);
+// Function to set edit data for update modal
+function setEditData(id_member, nomor_hp, nama_member, email) {
+    // Clear previous values
+    document.getElementById('id_member2').value = '';
+    document.getElementById('nama_member2').value = '';
+    document.getElementById('email2').value = '';
+    
+    // Set new values
+    document.getElementById('id_member2').value = id_member;
+    document.getElementById('nama_member2').value = nama_member;
+    document.getElementById('email2').value = email;
 
-        // Isi nilai form
-        document.getElementById('id_kasir2').value = id_member;
-        document.getElementById('nomor_hp2').value = nomor_hp;
-        document.getElementById('nama_member2').value = nama_member;
-        document.getElementById('email2').value = email;
+    // Update form action with id_member
+    const form = document.getElementById('updateMemberForm');
+    const baseUrl = "{{ url('/admin/member/update') }}/";
+    form.action = `${baseUrl}${id_member}`;
+}
 
-        // Perbarui action form dengan id_member
-        const form = document.getElementById('updateKasirForm');
-        const baseUrl = "{{ url('/admin/member/update') }}/"; // URL dasar tanpa parameter
-        form.action = `${baseUrl}${id_member}`;
+// Function to set delete data for delete modal
+function setDeleteData(id_member) {
+    // Clear previous value
+    document.getElementById('id_member3').value = '';
+    
+    // Set new value
+    document.getElementById('id_member3').value = id_member;
+
+    // Update form action with id_member
+    const form = document.getElementById('deleteForm');
+    const baseUrl = "{{ url('/admin/member/delete') }}/";
+    form.action = `${baseUrl}${id_member}`;
+}
+
+// Function to clear create form when modal is opened
+document.addEventListener('DOMContentLoaded', function() {
+    // Clear create form when modal is shown
+    const createModal = document.getElementById('staticBackdrop');
+    createModal.addEventListener('show.bs.modal', function() {
+        document.getElementById('tambahMemberForm').reset();
+    });
+    
+    // Clear update form when modal is hidden
+    const updateModal = document.getElementById('staticBackdropUpdate');
+    updateModal.addEventListener('hidden.bs.modal', function() {
+        document.getElementById('updateMemberForm').reset();
+    });
+    
+    // Clear delete form when modal is hidden
+    const deleteModal = document.getElementById('staticBackdropDelete');
+    deleteModal.addEventListener('hidden.bs.modal', function() {
+        document.getElementById('id_member3').value = '';
+    });
+});
+
+// Auto-close alerts after 3 seconds
+setTimeout(function() {
+    var errorAlert = document.getElementById('error-alert');
+    var successAlert = document.getElementById('success-alert');
+    
+    // Check for error alert and trigger close event
+    if (errorAlert) {
+        var closeButton = errorAlert.querySelector('[data-bs-dismiss="alert"]');
+        if (closeButton) {
+            closeButton.click();
+        }
     }
 
-    // Fungsi untuk mengisi data hapus
-    function setDeleteData(id_member) {
-        console.log('id_member', id_member);
-
-        // Isi nilai form
-        document.getElementById('id_member3').value = id_member;
-
-        // Perbarui action form dengan id_member
-        const form = document.getElementById('deleteForm');
-        const baseUrl = "{{ url('/admin/member/delete') }}/"; // URL dasar tanpa parameter
-        form.action = `${baseUrl}${id_member}`;
+    // Check for success alert and trigger close event
+    if (successAlert) {
+        var closeButton = successAlert.querySelector('[data-bs-dismiss="alert"]');
+        if (closeButton) {
+            closeButton.click();
+        }
     }
+}, 3000); // 3000ms = 3 seconds
 
-    // Menutup alert setelah 3 detik
-    setTimeout(function() {
-        var errorAlert = document.getElementById('error-alert');
-        var successAlert = document.getElementById('success-alert');
-
-        // Cek apakah ada error alert dan trigger event close
-        if (errorAlert) {
-            var closeButton = errorAlert.querySelector('[data-bs-dismiss="alert"]');
-            if (closeButton) {
-                closeButton.click(); // Men-trigger klik pada tombol close
-            }
+// Form validation
+document.addEventListener('DOMContentLoaded', function() {
+    // Add form validation for create form
+    const createForm = document.getElementById('tambahMemberForm');
+    createForm.addEventListener('submit', function(e) {
+        const nomorHp = document.getElementById('nomor_hp').value.trim();
+        const namaMember = document.getElementById('nama_member').value.trim();
+        const email = document.getElementById('email').value.trim();
+        
+        if (!nomorHp || !namaMember || !email) {
+            e.preventDefault();
+            alert('Semua field harus diisi!');
+            return false;
         }
-
-        // Cek apakah ada success alert dan trigger event close
-        if (successAlert) {
-            var closeButton = successAlert.querySelector('[data-bs-dismiss="alert"]');
-            if (closeButton) {
-                closeButton.click(); // Men-trigger klik pada tombol close
-            }
+        
+        // Simple phone number validation (Indonesian format)
+        const phoneRegex = /^(\+62|62|0)[0-9]{9,13}$/;
+        if (!phoneRegex.test(nomorHp)) {
+            e.preventDefault();
+            alert('Format nomor HP tidak valid!');
+            return false;
         }
-    }, 3000); // 3000ms = 3 seconds
+        
+        // Simple email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            e.preventDefault();
+            alert('Format email tidak valid!');
+            return false;
+        }
+    });
+    
+    // Add form validation for update form
+    const updateForm = document.getElementById('updateMemberForm');
+    updateForm.addEventListener('submit', function(e) {
+        const namaMember = document.getElementById('nama_member2').value.trim();
+        const email = document.getElementById('email2').value.trim();
+        
+        if (!namaMember || !email) {
+            e.preventDefault();
+            alert('Nama member dan email harus diisi!');
+            return false;
+        }
+        
+        // Simple email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            e.preventDefault();
+            alert('Format email tidak valid!');
+            return false;
+        }
+    });
+});
 </script>
 
 

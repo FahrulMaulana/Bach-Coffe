@@ -165,9 +165,8 @@
         /* Modern Main Content */
         .app-main {
             background: var(--cream-light) !important;
-            min-height: calc(100vh - 120px);
-            margin-left: 280px !important;
-            padding: 2rem !important;
+            min-height: calc(100vh - 80px);
+            padding: 1rem !important;
         }
 
         /* Modern Footer */
@@ -175,8 +174,7 @@
             background: var(--cream-gradient) !important;
             border-top: 1px solid var(--cream-dark) !important;
             color: var(--text-secondary) !important;
-            margin-left: 280px !important;
-            padding: 1rem 2rem !important;
+            padding: 0.75rem 1rem !important;
             font-weight: 500;
         }
 
@@ -254,11 +252,12 @@
             
             .app-main {
                 margin-left: 0 !important;
-                padding: 1rem !important;
+                padding: 0.75rem !important;
             }
             
             .app-footer {
                 margin-left: 0 !important;
+                padding: 0.5rem 0.75rem !important;
             }
         }
 
@@ -604,7 +603,7 @@
                         </li>
                         
                         <!-- Additional Menu Items -->
-                        <li class="nav-item mt-3">
+                        <!-- <li class="nav-item mt-3">
                             <a href="#" class="nav-link">
                                 <i class="bi bi-gear"></i>
                                 <p>Pengaturan</p>
@@ -615,7 +614,7 @@
                                 <i class="bi bi-question-circle"></i>
                                 <p>Bantuan</p>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <!--end::Sidebar Menu-->
                 </nav>
