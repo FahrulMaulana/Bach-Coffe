@@ -129,10 +129,26 @@
   }
 
   /* Modern Modal */
+  .modal {
+    z-index: 1050 !important;
+  }
+
+  .modal-backdrop {
+    z-index: 1040 !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .modal-dialog {
+    z-index: 1060 !important;
+    position: relative;
+  }
+
   .modal-content {
     border-radius: var(--border-radius) !important;
     border: none !important;
     box-shadow: var(--modern-shadow-lg) !important;
+    z-index: 1070 !important;
+    position: relative;
   }
 
   .modal-header {
@@ -152,6 +168,8 @@
 
   .modal-body {
     padding: 2rem !important;
+    z-index: 1070 !important;
+    position: relative;
   }
 
   .modal-footer {
@@ -159,6 +177,8 @@
     border-top: 1px solid var(--cream-dark) !important;
     border-radius: 0 0 var(--border-radius) var(--border-radius) !important;
     padding: 1.5rem !important;
+    z-index: 1070 !important;
+    position: relative;
   }
 
   /* Modern Form */
@@ -166,6 +186,8 @@
     color: var(--text-primary) !important;
     font-weight: 600 !important;
     margin-bottom: 0.5rem !important;
+    z-index: 1080 !important;
+    position: relative;
   }
 
   .form-control {
@@ -174,12 +196,15 @@
     padding: 12px 16px !important;
     transition: all 0.3s ease !important;
     background: var(--cream-light) !important;
+    z-index: 1080 !important;
+    position: relative;
   }
 
   .form-control:focus {
     border-color: var(--red-primary) !important;
     box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.25) !important;
     background: white !important;
+    z-index: 1090 !important;
   }
 
   /* Modern Alerts */
@@ -486,7 +511,7 @@
 <!--end::App Content-->
 
 <!-- CREATE MODAL -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <!-- Modal Header -->
@@ -538,7 +563,7 @@
 </div>
 
 <!-- UPDATE MODAL -->
-<div class="modal fade" id="staticBackdropUpdate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropUpdateLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdropUpdate" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropUpdateLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <!-- Modal Header -->
@@ -588,7 +613,7 @@
 </div>
 
 <!-- DELETE MODAL -->
-<div class="modal fade" id="staticBackdropDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropDeleteLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdropDelete" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropDeleteLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
