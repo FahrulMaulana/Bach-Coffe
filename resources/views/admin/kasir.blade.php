@@ -48,21 +48,21 @@
     border-radius: 12px;
     padding: 8px 16px;
     margin: 0;
-    backdrop-filter: blur(10px);
+    /* Removed backdrop-filter for performance */
   }
 
-  /* Modern Card */
+  /* Modern Card - Optimized */
   .modern-card {
     background: white;
     border-radius: var(--border-radius);
     box-shadow: var(--modern-shadow);
     border: 1px solid var(--cream-dark);
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .modern-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     box-shadow: var(--modern-shadow-lg);
   }
 
@@ -70,7 +70,7 @@
     padding: 2rem;
   }
 
-  /* Modern Button */
+  /* Modern Button - Optimized */
   .btn-modern-primary {
     background: var(--red-gradient) !important;
     border: none !important;
@@ -78,7 +78,7 @@
     font-weight: 600 !important;
     padding: 12px 24px !important;
     border-radius: var(--border-radius) !important;
-    transition: all 0.3s ease !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -90,7 +90,7 @@
     color: white !important;
   }
 
-  /* Modern Table */
+  /* Modern Table - Optimized */
   .modern-table {
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -112,13 +112,12 @@
   }
 
   .modern-table tbody tr {
-    transition: all 0.3s ease;
+    transition: background-color 0.2s ease;
     border-bottom: 1px solid var(--cream-secondary);
   }
 
   .modern-table tbody tr:hover {
     background: var(--cream-light);
-    transform: scale(1.01);
   }
 
   .modern-table tbody td {
@@ -511,6 +510,7 @@
 <!--end::App Content-->
 
 <!-- CREATE MODAL -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <!-- Modal Header -->

@@ -13,15 +13,23 @@
         content="Bach Coffee Admin Dashboard - Modern Coffee Shop Management System" />
     <meta name="keywords"
         content="coffee shop, admin dashboard, bach coffee, management system, modern ui" />
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    
     <!--end::Primary Meta Tags-->
-    <!--begin::Fonts-->
+    <!--begin::Fonts - Optimized with display=swap-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
-        integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" media="print" onload="this.media='all'" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <!--end::Fonts-->
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css"
-        integrity="sha256-tZHrRjVqNSRyWg2wbppGnT833E/Ys0DHWGwT04GiqQg=" crossorigin="anonymous" />
+        integrity="sha256-tZHrRjVqNSRyWg2wbppGnT833E/Ys0DHWGwT04GiqQg=" crossorigin="anonymous" media="print" onload="this.media='all'" />
     <!--end::Third Party Plugin(OverlayScrollbars)-->
     <!--begin::Third Party Plugin(Bootstrap Icons)-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
@@ -30,12 +38,12 @@
     <!--begin::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="/AdminLTE-4.0.0-beta3/dist/css/adminlte.css" />
     <!--end::Required Plugin(AdminLTE)-->
-    <!-- apexcharts -->
+    <!-- apexcharts - Lazy load -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
-        integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
-    <!-- jsvectormap -->
+        integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" media="print" onload="this.media='all'" />
+    <!-- jsvectormap - Lazy load -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
-        integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous" />
+        integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4=" crossorigin="anonymous" media="print" onload="this.media='all'" />
     
     <!-- Custom Modern Styles -->
     <style>
@@ -70,9 +78,9 @@
         body {
             background: var(--cream-light) !important;
             font-family: 'Poppins', sans-serif !important;
-            /* Performance optimization */
-            will-change: auto;
-            contain: layout style paint;
+            /* Performance optimization - removed heavy properties */
+            transform: translateZ(0);
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Optimized animations - use transform instead of other properties */
@@ -86,10 +94,9 @@
             background: var(--red-gradient) !important;
             border-bottom: none !important;
             box-shadow: var(--modern-shadow) !important;
-            backdrop-filter: blur(20px);
             padding: 0.75rem 0 !important;
-            /* Performance optimization */
-            contain: layout style;
+            /* Performance optimization - removed heavy backdrop-filter */
+            transform: translateZ(0);
         }
 
         .app-header .navbar-nav .nav-link {
@@ -113,9 +120,8 @@
             border-right: 1px solid var(--cream-dark) !important;
             box-shadow: var(--modern-shadow) !important;
             width: 280px !important;
-            /* Performance optimization */
-            contain: layout style;
-            transform: translateZ(0); /* Force hardware acceleration */
+            /* Performance optimization - simplified */
+            transform: translateZ(0);
         }
 
         .sidebar-brand {
@@ -156,13 +162,10 @@
             font-weight: 500 !important;
             padding: 12px 20px !important;
             margin: 3px 0 !important;
-            transition: var(--transition-fast) !important;
+            transition: background-color var(--transition-fast), color var(--transition-fast) !important;
             display: flex !important;
             align-items: center !important;
             gap: 12px !important;
-            /* Performance optimization */
-            will-change: transform, background-color;
-            transform: translateZ(0);
         }
 
         .sidebar-menu .nav-link i {
@@ -174,8 +177,6 @@
         .sidebar-menu .nav-link:hover {
             background: var(--red-light) !important;
             color: var(--red-primary) !important;
-            transform: translateX(5px) translateZ(0);
-            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
         }
 
         .sidebar-menu .nav-link.active {
@@ -198,27 +199,21 @@
             background: var(--cream-light) !important;
             min-height: calc(100vh - 80px);
             padding: 1rem !important;
-            /* Performance optimization */
-            contain: layout style;
         }
 
         #main-content {
-            /* Performance optimization for content transitions */
-            transition: opacity var(--transition-fast), transform var(--transition-fast);
-            will-change: opacity, transform;
-            transform: translateZ(0);
+            /* Performance optimization for content transitions - simplified */
+            transition: opacity var(--transition-fast);
         }
 
         /* Fast loading states */
         .content-loading {
             opacity: 0.6;
-            transform: translateY(10px) translateZ(0);
             pointer-events: none;
         }
 
         .content-loaded {
             opacity: 1;
-            transform: translateY(0) translateZ(0);
             pointer-events: auto;
         }
 
@@ -254,12 +249,11 @@
         /* Modern User Menu */
         .user-image {
             border: 3px solid rgba(255, 255, 255, 0.3) !important;
-            transition: var(--transition-fast);
+            transition: border-color var(--transition-fast);
         }
 
         .user-menu:hover .user-image {
             border-color: white !important;
-            transform: scale(1.05) translateZ(0);
         }
 
         .user-header {
@@ -287,15 +281,13 @@
             font-weight: 600 !important;
             border-radius: var(--border-radius) !important;
             padding: 10px 20px !important;
-            transition: var(--transition-fast);
-            will-change: transform, background-color;
+            transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
         }
 
         .btn-default:hover {
             background: var(--red-primary) !important;
             border-color: var(--red-primary) !important;
             color: white !important;
-            transform: translateY(-2px) translateZ(0);
         }
 
         /* Mobile Responsive - Enhanced */
@@ -636,7 +628,7 @@
                                 <!--begin::Message-->
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/user1-128x128.jpg"
+                                        <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/avatar.png?v={{ time() }}"
                                             alt="User Avatar" class="img-size-50 rounded-circle me-3" />
                                     </div>
                                     <div class="flex-grow-1">
@@ -699,14 +691,14 @@
                     <!--begin::User Menu Dropdown-->
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/avatar.png"
+                            <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/avatar.png?v={{ time() }}"
                                 class="user-image rounded-circle shadow" alt="User Image" />
                             <span class="d-none d-md-inline">{{ Auth::user()->nama_lengkap ?? Auth::user()->username ?? 'User' }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                             <!--begin::User Image-->
                             <li class="user-header">
-                                <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/avatar.png"
+                                <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/avatar.png?v={{ time() }}"
                                     class="rounded-circle shadow" alt="User Image" />
                                 <p>
                                     {{ Auth::user()->nama_lengkap ?? Auth::user()->username ?? 'User' }} - Bach Coffee

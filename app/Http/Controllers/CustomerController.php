@@ -14,9 +14,24 @@ class CustomerController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $products = produk::all();
+        
+        // Get all products - kolom yang ada: id_produk, nama_produk, harga_produk, foto, promo
+        $products = produk::orderBy('nama_produk')->get();
+            
+        // Get member - kolom yang ada: id_member, id_user, nama_member, email, nomor_hp, total_poin
         $member = member::where('id_user', $user->id_user)->first();
-        $voucher = voucher::where("id_member", $member->id_member)->get();
+        
+        // Check if member exists
+        if (!$member) {
+            return redirect()->back()->with('error', 'Data member tidak ditemukan');
+        }
+            
+        // Get vouchers - kolom yang ada: id_voucher, id_member, kode_voucher, poin_terpakai, status_voucher, tanggal_klaim
+        $voucher = voucher::where("id_member", $member->id_member)
+            ->orderBy('created_at', 'desc')
+            ->limit(50)
+            ->get();
+            
         return view('customer.dashboard', compact('user', 'products', 'member', 'voucher'));
     }
 

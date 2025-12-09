@@ -8,16 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class kasir extends Model implements Authenticatable
 {
-
     use AuthenticableTrait;
-    protected $table = 'tbl_user'; // Nama tabel
+    
+    protected $table = 'tbl_user';
+    protected $primaryKey = 'id_user';
+    // Kolom yang ada di database: id_user, username, password, nama_lengkap, id_level, created_at, updated_at
+    protected $fillable = ['id_user', 'username', 'password', 'nama_lengkap', 'id_level'];
 
     public function member()
     {
         return $this->belongsTo(member::class, 'id_user', 'id_user');
     }
-    protected $primaryKey = 'id_user'; // Kolom primary key
-    protected $fillable = ['id_user','username', 'password', 'nama_lengkap','id_level'];
 
     
     public function getAuthIdentifierName()

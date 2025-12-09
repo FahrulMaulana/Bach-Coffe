@@ -13,12 +13,11 @@ class MemberController extends Controller
 {
     public function index()
     {
+        // Get members with eager loading
         $member = kasir::with('member')
             ->where('id_level', 3)
-            ->paginate(5);
+            ->paginate(10);
 
-        $user = Auth::user();
-        // dd($member->);
         return view('admin.member', compact('member'));
     }
 
