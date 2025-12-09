@@ -699,18 +699,28 @@
                     <!--begin::User Menu Dropdown-->
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/user2-160x160.jpg"
+                            <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/avatar.png"
                                 class="user-image rounded-circle shadow" alt="User Image" />
-                            <span class="d-none d-md-inline">{{ Auth::user()->name ?? 'Admin' }}</span>
+                            <span class="d-none d-md-inline">{{ Auth::user()->nama_lengkap ?? Auth::user()->username ?? 'User' }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                             <!--begin::User Image-->
                             <li class="user-header">
-                                <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/user2-160x160.jpg"
+                                <img src="/AdminLTE-4.0.0-beta3/dist/assets/img/avatar.png"
                                     class="rounded-circle shadow" alt="User Image" />
                                 <p>
-                                    {{ Auth::user()->name ?? 'Admin' }} - Bach Coffee
-                                    <small>Administrator</small>
+                                    {{ Auth::user()->nama_lengkap ?? Auth::user()->username ?? 'User' }} - Bach Coffee
+                                    <small>
+                                        @if(Auth::user()->id_level == 1)
+                                            Administrator
+                                        @elseif(Auth::user()->id_level == 2)
+                                            Kasir
+                                        @elseif(Auth::user()->id_level == 3)
+                                            Member
+                                        @else
+                                            User
+                                        @endif
+                                    </small>
                                 </p>
                             </li>
                             <!--end::User Image-->

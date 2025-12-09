@@ -108,10 +108,22 @@ class MemberController extends Controller
     public function destroy($id_member)
     {
         $member = member::find($id_member);
+        
+        if (!$member) {
+            return redirect()->route('member')->with('error', 'Member tidak ditemukan.');
+        }
+        
+        $id_user = $member->id_user;
+        
+        // Delete member first
         $member->delete();
 
-        $user = kasir::find($member->id_user);
-        $user->delete();
+        // Then delete the associated user account
+        $user = kasir::find($id_user);
+        if ($user) {
+            $user->delete();
+        }
+        
         return redirect()->route('member')->with('success', 'Member berhasil dihapus.');
     }
 }

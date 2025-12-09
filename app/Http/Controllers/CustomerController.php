@@ -38,7 +38,7 @@ class CustomerController extends Controller
         $data->id_member = $member->id_member;
         $data->kode_voucher = 'VCR' . rand(100, 999);
         $data->poin_terpakai = $request->harga_produk;
-        $data->status_voucher = 'Menunggu Verifikasi';
+        $data->status_voucher = 'Pending';
         $data->tanggal_klaim = now();
         $data->save();
 
